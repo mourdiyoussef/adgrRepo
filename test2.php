@@ -7,7 +7,7 @@
 include_once('entities\donneur.php');
 include_once('dao\donneurdao.php');
 
-$donn = new Donneur();
+$donn = new Donneur(); kjwqflkewsrgfklergfkiqgfkqldgf
 $donn->setNom("Josef");
 $dDao = new DonneurDAO();
 $dDao->delDonneur(2);
