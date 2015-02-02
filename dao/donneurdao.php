@@ -1,5 +1,6 @@
 <?php
 include_once('connectiondb.php');
+include_once('..\entities\donneur.php');
 
 /**
  * User: youssef
@@ -19,9 +20,25 @@ class DonneurDAO {
      * Les différentes fonctions d'intéraction avec la base de données ============================================
      */
 
-    public function addDonneur($d){
+    public function addDonneur(){
+        $d = new Donneur();
         $bdd = $this->objConnexion->connect();
-        $req = "insert into user values('','".$d->getNom()."','".$d->getNom()."','".$d->getNom()."')";
+        $req = "insert into user values('',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."',
+                '".$d->getNom()."')";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
     }

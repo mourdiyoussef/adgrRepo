@@ -20,7 +20,7 @@ class ConnectionDB {
     }
 
     public function connect(){
-        $bdd = mysqli_connect("localhost", "root", "", "iirg1");
+        $bdd = mysqli_connect("localhost", "root", "", "adgr_db");
         return $bdd;
     }
 
