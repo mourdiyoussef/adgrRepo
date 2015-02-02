@@ -10,8 +10,8 @@ include_once('dao\donneurdao.php');
 $donn = new Donneur();
 $donn->setNom("Josef");
 $dDao = new DonneurDAO();
-$dDao->delDonneur(2);
-//$dDao->addDonneur($donn);
+//$dDao->delDonneur(2);
+$dDao->addDonneur($donn);
 
 
 ?>

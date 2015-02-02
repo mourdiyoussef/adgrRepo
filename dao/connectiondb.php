@@ -6,18 +6,6 @@
  */
 
 class ConnectionDB {
-    private $host;
-    private $user;
-    private $mdp;
-    private $db;
-
-    public function __construct()
-    {
-        $this->host = "localhost";
-        $this->user = "root";
-        $this->mdp = "";
-        $this->db = "iirg1";
-    }
 
     public function connect(){
         $bdd = mysqli_connect("localhost", "root", "", "adgr_db");

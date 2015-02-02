@@ -109,6 +109,40 @@ CREATE TABLE IF NOT EXISTS `adgr_db`.`contact` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `adgr_db`.`notification`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `adgr_db`.`notification` (
+  `idnotification` INT NOT NULL AUTO_INCREMENT,
+  `dateNotif` DATE NULL,
+  `user_iduser` INT NOT NULL,
+  `collecte_idcollecte` INT NOT NULL,
+  `donneur_iddonneur` INT NOT NULL,
+  `remarque` LONGTEXT NULL,
+  `typeNotif` VARCHAR(45) NULL,
+  `reponse` VARCHAR(45) NULL,
+  PRIMARY KEY (`idnotification`, `user_iduser`, `collecte_idcollecte`, `donneur_iddonneur`),
+  INDEX `fk_notification_user1_idx` (`user_iduser` ASC),
+  INDEX `fk_notification_collecte1_idx` (`collecte_idcollecte` ASC),
+  INDEX `fk_notification_donneur1_idx` (`donneur_iddonneur` ASC),
+  CONSTRAINT `fk_notification_user1`
+    FOREIGN KEY (`user_iduser`)
+    REFERENCES `adgr_db`.`user` (`iduser`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_collecte1`
+    FOREIGN KEY (`collecte_idcollecte`)
+    REFERENCES `adgr_db`.`collecte` (`idcollecte`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_donneur1`
+    FOREIGN KEY (`donneur_iddonneur`)
+    REFERENCES `adgr_db`.`donneur` (`iddonneur`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

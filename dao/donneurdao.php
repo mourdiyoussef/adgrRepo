@@ -1,6 +1,6 @@
 <?php
 include_once('connectiondb.php');
-include_once('..\entities\donneur.php');
+//include_once('..\entities\donneur.php');
 
 /**
  * User: youssef
@@ -20,25 +20,31 @@ class DonneurDAO {
      * Les différentes fonctions d'intéraction avec la base de données ============================================
      */
 
-    public function addDonneur(){
-        $d = new Donneur();
+    public function addDonneur($d){
+        //$d = new Donneur();
         $bdd = $this->objConnexion->connect();
-        $req = "insert into user values('',
+        $req = "insert into donneur values(
+                '',
                 '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."',
-                '".$d->getNom()."')";
+                '".$d->getPrenom()."',
+                '".$d->getDernierDon()."',
+                '".$d->getCodeAd()."',
+                '".$d->getDateNaissance()."',
+                '".$d->getAdresse()."',
+                '".$d->getFonction()."',
+                '".$d->getEtatMatrimonial()."',
+                '".$d->getNombreEnfant()."',
+                '".$d->getGroupeSanguin()."',
+                '".$d->getMail()."',
+                '".$d->getTel()."',
+                '".$d->getCin()."',
+                '".$d->getPhoto()."',
+                '".$d->getDateInscription()."',
+                '".$d->getAptPourDon()."',
+                '".$d->getLogin()."',
+                '".$d->getMdp()."',
+                '".$d->getRemarques()."',
+                )";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
     }

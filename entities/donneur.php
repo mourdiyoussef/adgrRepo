@@ -10,6 +10,7 @@ class Donneur {
     private $prenom;
     private $codeAd;
     private $dateNaissance;
+    private $dernierDon;
     private $adresse;
     private $fonction;
     private $etatMatrimonial;
@@ -22,6 +23,8 @@ class Donneur {
     private $photo;
     private $dateInscription;
     private $aptPourDon;
+    private $login;
+    private $mdp;
     private $remarques;
     private $age;
 
@@ -206,6 +209,42 @@ class Donneur {
     public function setAge($age)
     {
         $this->age = $age;
+    }
+
+    public function getDernierDon()
+    {
+        return $this->dernierDon;
+    }
+
+    public function setDernierDon($dernierDon)
+    {
+        $this->dernierDon = $dernierDon;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @param mixed $login
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+    public function getMdp()
+    {
+        return $this->mdp;
+    }
+
+    public function setMdp($mdp)
+    {
+        $this->mdp = $mdp;
     }
 
 }
