@@ -34,9 +34,11 @@ CREATE TABLE IF NOT EXISTS `adgr_db`.`donneur` (
   `cin` VARCHAR(45) NULL,
   `photo` VARCHAR(255) NULL,
   `dateInscription` DATE NULL,
-  `aptPourDon` TINYINT NULL,
+  `aptPourDon` VARCHAR(45) NULL,
   `login` VARCHAR(255) NULL,
   `motDePasse` VARCHAR(255) NULL,
+  `sexe` VARCHAR(45) NULL,
+  `etatCarte` VARCHAR(45) NULL,
   `remarques` LONGTEXT NULL,
   PRIMARY KEY (`iddonneur`))
 ENGINE = InnoDB;
@@ -139,6 +141,41 @@ CREATE TABLE IF NOT EXISTS `adgr_db`.`notification` (
     FOREIGN KEY (`donneur_iddonneur`)
     REFERENCES `adgr_db`.`donneur` (`iddonneur`)
     ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `adgr_db`.`categorie_depense`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `adgr_db`.`categorie_depense` (
+  `idcategorie_depense` INT NOT NULL AUTO_INCREMENT,
+  `category` VARCHAR(200) NULL,
+  PRIMARY KEY (`idcategorie_depense`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `adgr_db`.`depense`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `adgr_db`.`depense` (
+  `iddepense` INT NOT NULL AUTO_INCREMENT,
+  `collecte_idcollecte` INT NOT NULL,
+  `montant` DOUBLE NULL,
+  `remarques` LONGTEXT NULL,
+  `categorie_depense_idcategorie_depense` INT NOT NULL,
+  PRIMARY KEY (`iddepense`, `collecte_idcollecte`, `categorie_depense_idcategorie_depense`),
+  INDEX `fk_depense_collecte1_idx` (`collecte_idcollecte` ASC),
+  INDEX `fk_depense_categorie_depense1_idx` (`categorie_depense_idcategorie_depense` ASC),
+  CONSTRAINT `fk_depense_collecte1`
+    FOREIGN KEY (`collecte_idcollecte`)
+    REFERENCES `adgr_db`.`collecte` (`idcollecte`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_depense_categorie_depense1`
+    FOREIGN KEY (`categorie_depense_idcategorie_depense`)
+    REFERENCES `adgr_db`.`categorie_depense` (`idcategorie_depense`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

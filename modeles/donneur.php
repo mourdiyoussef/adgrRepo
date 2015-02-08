@@ -6,6 +6,7 @@
  */
 
 class Donneur {
+    private $idDonneur;
     private $nom;
     private $prenom;
     private $codeAd;
@@ -16,7 +17,6 @@ class Donneur {
     private $etatMatrimonial;
     private $nombreEnfant;
     private $groupeSanguin;
-    private $idDonneur;
     private $mail;
     private $tel;
     private $cin;
@@ -25,8 +25,37 @@ class Donneur {
     private $aptPourDon;
     private $login;
     private $mdp;
+    private $sexe;
+    private $etatCArte;
     private $remarques;
-    private $age;
+
+    function __construct($idDonneur, $nom, $prenom, $codeAd, $dateNaissance, $dernierDon, $adresse, $fonction, $etatMatrimonial,
+                         $nombreEnfant, $groupeSanguin, $mail, $tel, $cin, $photo, $dateInscription, $aptPourDon, $login, $mdp,
+                         $sexe, $etatCArte, $remarques)
+    {
+        $this->idDonneur = $idDonneur;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->codeAd = $codeAd;
+        $this->dateNaissance = $dateNaissance;
+        $this->dernierDon = $dernierDon;
+        $this->adresse = $adresse;
+        $this->fonction = $fonction;
+        $this->etatMatrimonial = $etatMatrimonial;
+        $this->nombreEnfant = $nombreEnfant;
+        $this->groupeSanguin = $groupeSanguin;
+        $this->mail = $mail;
+        $this->tel = $tel;
+        $this->cin = $cin;
+        $this->photo = $photo;
+        $this->dateInscription = $dateInscription;
+        $this->aptPourDon = $aptPourDon;
+        $this->login = $login;
+        $this->mdp = $mdp;
+        $this->sexe = $sexe;
+        $this->etatCArte = $etatCArte;
+        $this->remarques = $remarques;
+    }
 
     /*
      * Les getters et les setters pour tous les attributs ==================================================
@@ -201,16 +230,6 @@ class Donneur {
         $this->remarques = $remarques;
     }
 
-    public function getAge()
-    {
-        return $this->age;
-    }
-
-    public function setAge($age)
-    {
-        $this->age = $age;
-    }
-
     public function getDernierDon()
     {
         return $this->dernierDon;
@@ -221,17 +240,11 @@ class Donneur {
         $this->dernierDon = $dernierDon;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLogin()
     {
         return $this->login;
     }
 
-    /**
-     * @param mixed $login
-     */
     public function setLogin($login)
     {
         $this->login = $login;
@@ -245,6 +258,26 @@ class Donneur {
     public function setMdp($mdp)
     {
         $this->mdp = $mdp;
+    }
+
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+    }
+
+    public function getEtatCArte()
+    {
+        return $this->etatCArte;
+    }
+
+    public function setEtatCArte($etatCArte)
+    {
+        $this->etatCArte = $etatCArte;
     }
 
 }

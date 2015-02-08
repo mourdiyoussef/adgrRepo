@@ -1,6 +1,5 @@
 <?php
 include_once('connectiondb.php');
-//include_once('..\entities\donneur.php');
 
 /**
  * User: youssef
@@ -21,7 +20,6 @@ class DonneurDAO {
      */
 
     public function addDonneur($d){
-        //$d = new Donneur();
         $bdd = $this->objConnexion->connect();
         $req = "insert into donneur values(
                 '',
@@ -43,57 +41,13 @@ class DonneurDAO {
                 '".$d->getAptPourDon()."',
                 '".$d->getLogin()."',
                 '".$d->getMdp()."',
-                '".$d->getRemarques()."',
+                '".$d->getSexe()."',
+                '".$d->getEtatCArte()."',
+                '".$d->getRemarques()."'
                 )";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
-    }
-
-    public function delDonneur($id){
-        $bdd = $this->objConnexion->connect();
-        $req = "delete from user WHERE idUser=$id";
-        $v = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-    }
-
-    public function editDonneur($donneur,$id){
-        $bdd = $this->objConnexion->connect();
-        $req = "select * from user where idUser=$id";
-        $Donneur = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-        return $Donneur;
-    }
-
-    public function getAllDonneur(){
-        $bdd = $this->objConnexion->connect();
-        $req = "select * from user";
-        $listAllDonneur = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-        return $listAllDonneur;
-    }
-
-    public function getDonneurWithId($id){
-        $bdd = $this->objConnexion->connect();
-        $req = "select * from user where idUser=$id";
-        $Donneur = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-        return $Donneur;
-    }
-
-    public function getDonneurWithGroup($id){
-        $bdd = $this->objConnexion->connect();
-        $req = "select * from user where idUser=$id";
-        $listDonneur = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-        return $listDonneur;
-    }
-
-    public function getDonneurWithCinOrNameorFirstName($id){
-        $bdd = $this->objConnexion->connect();
-        $req = "select * from user where idUser=$id";
-        $listDonneur = mysqli_query($bdd,$req) or die(mysql_error());
-        $this->objConnexion->close($bdd);
-        return $listDonneur;
+        return $v;
     }
 }
 ?>
