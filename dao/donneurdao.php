@@ -49,5 +49,18 @@ class DonneurDAO {
         $this->objConnexion->close($bdd);
         return $v;
     }
+
+    public function getAllDonneur(){
+        $tab = "";
+        $d = new Donneur();
+        $bdd = $this->objConnexion->connect();
+        $req = "select * from donneur";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        while($obj = mysqli_fetch_object($v)){
+            $tab[] = $obj;
+        }
+        $this->objConnexion->close($bdd);
+        return $tab;
+    }
 }
 ?>

@@ -44,5 +44,8 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="img/favicon/favicon.png">
 
+<!-- JavaScript et style pour les champs calendrier -->
+<script type="text/javascript" src="js/calendrier.js"></script>
+<link rel="stylesheet" media="screen" type="text/css" title="Design" href="style/design_calendrier.css" />
 
 

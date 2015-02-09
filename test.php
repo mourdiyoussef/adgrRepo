@@ -6,14 +6,10 @@
  */
 include_once('modeles\donneur.php');
 include_once('dao\donneurdao.php');
+include_once('metier\donneurcontroller.php');
 
-$dDao = new DonneurDAO();
+$dDao = new DonneurController();
 
-
-$donn = new Donneur();
-$donn->setNom("Josef");
-
-//$dDao->delDonneur(2);
-$dDao->addDonneur($donn);
+$dDao
 
 ?>
