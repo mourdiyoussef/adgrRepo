@@ -1,29 +1,27 @@
 <?php
-if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte']) and !empty($_POST['cin'])){
+if(!empty($_GET['idDonneur'])){
+  include_once("modeles/donneur.php");
+  include_once("utils/switchDate.php");
+  include_once("dao/connectiondb.php");
+  include_once("dao/donneurdao.php");
+  include_once("metier/donneurcontroller.php");
+  $donneurCtrl = new DonneurController();
+  $donneur = $donneurCtrl->getDonneurById($_GET['idDonneur']);
+}
+
+if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) and !empty($_POST['cin'])){
   include_once("modeles/donneur.php");
   include_once("utils/switchDate.php");
   include_once("dao/connectiondb.php");
   include_once("dao/donneurdao.php");
   include_once("metier/donneurcontroller.php");
 
-  /*---------------- Upload de la photo --------------------*/
-  $target_dir = "photo_user/";
-  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-  $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-  $target_file = $target_dir . $_POST['cin'] .".". $imageFileType;
-  $uploadOk = 1;
-  // Check if image file is a actual image or fake image
-  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  include_once("utils/UploadPhoto.php");
-  /*---------------------- Fin de l'upload de la photo ------------------------*/
   $donneurCtrl = new DonneurController();
-  if($donneurCtrl->ajouterDonneur($_POST['nom'],$_POST['prenom'],$_POST['codeAd'],$_POST['dateNai'],$_POST['dernierDon'],
+  if($donneurCtrl->editDonneur($_POST['nom'],$_POST['prenom'],$_POST['codeAd'],$_POST['dateNai'],$_POST['dernierDon'],
       $_POST['adresse'],$_POST['fonction'],$_POST['etatMatri'],$_POST['nbrEnf'],$_POST['groupeS'],
-      $_POST['mail'],$_POST['tel'],$_POST['cin'], $target_file, $_POST['aptPourDon'],$_POST['sexe'],
-      $_POST['carte'],$_POST['remarque'])){
-    echo "<h1>OKKKKKK</h1>";
-  }else{
-    echo "<h1>oIo</h1>";
+      $_POST['mail'],$_POST['tel'],$_POST['cin'], $_POST['aptPourDon'],$_POST['sexe'],
+      $_POST['carte'],$_POST['remarque'],$_POST['id'])){
+    header("location:donneurListTable.php");
   }
 }
 ?>
@@ -71,7 +69,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Nouvel adhérant</h2>
+	      <h2 class="pull-left">Modification de l' adhérant <?php echo $donneur->getNom()." ".$donneur->getPrenom(); ?></h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -98,7 +96,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
               <div class="widget wgreen">
                 
                 <div class="widget-head">
-                  <div class="pull-left">Formulaire d'inscription</div>
+                  <div class="pull-left"> <?php echo "Code d'adhésion : ".$donneur->getCodeAd(); ?></div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -118,34 +116,34 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
                                 <div class="form-group">
                                   <label class="col-lg-4 control-label">Nom</label>
                                   <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="" name="nom">
+                                    <input type="text" class="form-control" placeholder="" name="nom" value="<?php echo $donneur->getNom();?>">
                                   </div>
                                 </div>
                                  <div class="form-group">
                                    <label class="col-lg-4 control-label">Prénom</label>
                                    <div class="col-lg-8">
-                                     <input type="text" class="form-control" placeholder="" name="prenom">
+                                     <input type="text" class="form-control" placeholder="" name="prenom" value="<?php echo $donneur->getPrenom();?>">
                                    </div>
                                  </div>
 
                        <div class="form-group">
                          <label class="col-lg-4 control-label">CIN</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="cin">
+                           <input type="text" class="form-control" placeholder="" name="cin" value="<?php echo $donneur->getCin();?>">
                          </div>
                        </div>
 
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Date de naissance</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="dateNai" onclick="ds_sh(this);">
+                           <input type="text" class="form-control" placeholder="" name="dateNai" onclick="ds_sh(this);" value="<?php echo $donneur->getDateNaissance();?>">
                          </div>
                        </div>
 
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Code d'adhésion</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="codeAd">
+                           <input type="text" class="form-control" placeholder="" name="codeAd" value="<?php echo $donneur->getCodeAd();?>">
                          </div>
                        </div>
                        <div class="form-group">
@@ -177,43 +175,37 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Adresse</label>
                          <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="adresse"></textarea>
+                           <textarea class="form-control" rows="3" placeholder="" name="adresse"><?php echo $donneur->getAdresse();?></textarea>
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Fonction</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="fonction">
+                           <input type="text" class="form-control" placeholder="" name="fonction" value="<?php echo $donneur->getFonction();?>">
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Etat matrimonial</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="etatMatri">
+                           <input type="text" class="form-control" placeholder="" name="etatMatri" value="<?php echo $donneur->getEtatMatrimonial();?>">
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Nombre d'enfant</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="nbrEnf">
+                           <input type="text" class="form-control" placeholder="" name="nbrEnf" value="<?php echo $donneur->getNombreEnfant();?>">
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">E-mail</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="mail">
+                           <input type="text" class="form-control" placeholder="" name="mail" value="<?php echo $donneur->getMail();?>">
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Telephone</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="tel">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Photo</label>
-                         <div class="col-lg-8">
-                           <input type="file" placeholder="" name="fileToUpload" id="fileToUpload">
+                           <input type="text" class="form-control" placeholder="" name="tel"value="<?php echo $donneur->getTel();?>">
                          </div>
                        </div>
                        <div class="form-group">
@@ -229,7 +221,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Dernier don</label>
                          <div class="col-lg-8">
-                           <input type="date" class="form-control" placeholder="" name="dernierDon" onclick="ds_sh(this);">
+                           <input type="date" class="form-control" placeholder="" name="dernierDon" onclick="ds_sh(this);" value="<?php echo $donneur->getDernierDon();?>">
                          </div>
                        </div>
                        <div class="form-group">
@@ -247,7 +239,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Observations</label>
                          <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="remarque"></textarea>
+                           <textarea class="form-control" rows="3" placeholder="" name="remarque"><?php echo $donneur->getRemarques();?></textarea>
                          </div>
                        </div>
                        <hr />
@@ -257,6 +249,9 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte'
                            <button type="button" class="btn btn-warning">Annuler</button>
                          </div>
                        </div>
+
+                       <input type="hidden" name="id" value="<?php echo $donneur->getIdDonneur();?>">
+
                      </form>
                   </div>
                 </div>

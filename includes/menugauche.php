@@ -25,8 +25,8 @@
         </li>
         <li class="has_sub"><a href="#"><i class="icon-list-alt"></i> Adhérents  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
             <ul>
-                <li><a href="widgets1.html">Nouvel adérant</a></li>
-                <li><a href="widgets2.html">Liste des adérants</a></li>
+                <li><a href="donneurAddForm.php">Nouvel adérant</a></li>
+                <li><a href="donneurListTable.php">Liste des adérants</a></li>
                 <li><a href="widgets3.html">Recherche avancée</a></li>
             </ul>
         </li>

@@ -128,7 +128,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
                                                     echo "<td>".$d->getTel()."</td>";
                                                     echo "<td>
                                                                 <a href='?action=supp&idDonneur=".$d->getIdDonneur()."'>Supprimer</a> |
-                                                                <a href='?action=mod&idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
+                                                                <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
                                                                 <a href='ficheDonneur.php?idDonneur=".$d->getIdDonneur()."'>Détails</a>
                                                             </td>";
                                                     echo "</tr>";

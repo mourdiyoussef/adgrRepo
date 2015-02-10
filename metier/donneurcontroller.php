@@ -25,12 +25,7 @@ class DonneurController{
         $donneur = new Donneur("", $nom, $prenom, $codeAd, $dateNaissance, $dernierDon, $adresse, $fonction, $etatMatrimonial,
             $nombreEnfant, $groupeSanguin, $mail, $tel, $cin, $photo, $dateInscription, $aptPourDon, $login, md5($mdp),
             $sexe, $etatCArte, $remarques);
-        if($this->donneurDao->addDonneur($donneur)){
-            return true;
-        }else{
-            return false;
-        }
-
+        return $this->donneurDao->addDonneur($donneur);
     }
 
     public function getAllDonneur()
@@ -43,5 +38,23 @@ class DonneurController{
         return $this->donneurDao->deleteDonneur($id);
     }
 
+    public function getDonneurById($id){
+        return $this->donneurDao->getDonneurById($id);
+    }
+
+    public function editDonneur($nom, $prenom, $codeAd, $dateNaissance, $dernierDon, $adresse, $fonction, $etatMatrimonial,
+                                   $nombreEnfant, $groupeSanguin, $mail, $tel, $cin, $aptPourDon, $sexe, $etatCArte, $remarques,$oldDonneurId){
+        $login = $cin;
+        $mdp = $codeAd;
+        $dateInscription = Date("Y-m-d");
+        $dateUtil = new switchDate();
+        $dateNaissance = $dateUtil->formToDB($dateNaissance);
+        $dernierDon = $dateUtil->formToDB($dernierDon);
+        $oldDonneur = $this->donneurDao->getDonneurById($oldDonneurId);
+        $donneur = new Donneur("", $nom, $prenom, $codeAd, $dateNaissance, $dernierDon, $adresse, $fonction, $etatMatrimonial,
+            $nombreEnfant, $groupeSanguin, $mail, $tel, $cin, $oldDonneur->getPhoto(), $dateInscription, $aptPourDon, $login, md5($mdp),
+            $sexe, $etatCArte, $remarques);
+        return $this->donneurDao->editDonneur($donneur, $oldDonneurId);
+    }
 }
 ?>
