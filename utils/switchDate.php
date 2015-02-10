@@ -17,7 +17,7 @@ class switchDate {
     /** change le format de la date vers JJ/MM/YYYY **/
     public function DBToForm($date){
         $date2 = explode("-",$date);
-        $nouvelleDate = $date2[2]."-".$date2[1]."-".$date2[0];
+        $nouvelleDate = $date2[2]."/".$date2[1]."/".$date2[0];
         return $nouvelleDate;
     }
 

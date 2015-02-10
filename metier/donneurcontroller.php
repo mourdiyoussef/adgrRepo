@@ -16,7 +16,7 @@ class DonneurController{
     public function ajouterDonneur($nom, $prenom, $codeAd, $dateNaissance, $dernierDon, $adresse, $fonction, $etatMatrimonial,
                                    $nombreEnfant, $groupeSanguin, $mail, $tel, $cin, $photo, $aptPourDon, $sexe, $etatCArte, $remarques)
     {
-        $login = $nom.".".$prenom;
+        $login = $cin;
         $mdp = $codeAd;
         $dateInscription = Date("Y-m-d");
         $dateUtil = new switchDate();
@@ -35,9 +35,12 @@ class DonneurController{
 
     public function getAllDonneur()
     {
-        $listDonneurDao[] = $this->donneurDao->getAllDonneur();
+        return $this->donneurDao->getAllDonneur();
+    }
 
-
+    public function deleteDonneur($id)
+    {
+        return $this->donneurDao->deleteDonneur($id);
     }
 
 }

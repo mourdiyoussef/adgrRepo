@@ -10,6 +10,7 @@ class MapperDao {
     function __construct(){  }
 
     public function donneurDaoToDto($dao){
-        
+        $d = new Donneur();
+        $d->setNom($dao);
     }
 }
