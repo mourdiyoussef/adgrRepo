@@ -47,5 +47,9 @@ class UserController{
         $user->setMdp(md5($user->getNom().".".$user->getPrenom()));
         return $this->userDao->initMotDePasseUser($user, $id);
     }
+
+    public function getUserByLoginAndPassword($login, $mdp){
+        return $this->userDao->getUserByLoginAndPassword($login,$mdp);
+    }
 }
 ?>
