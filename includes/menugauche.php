@@ -42,11 +42,19 @@
                 <li><a href="contactListTable.php">Liste des contacts</a></li>
             </ul>
         </li>
-        <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Utilisateurs  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
-            <ul>
-                <li><a href="userAddForm.php">Nouvel utilisateur</a></li>
-                <li><a href="userListTable.php">Liste des utilisateurs</a></li>
-            </ul>
-        </li>
+        <!-- seulement pour les admins --------------------------------->
+        <?php if($_SESSION['role']=="admin") {
+            ?>
+            <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Utilisateurs <span class="pull-right"><i
+                            class="icon-chevron-right"></i></span></a>
+                <ul>
+                    <li><a href="userAddForm.php">Nouvel utilisateur</a></li>
+                    <li><a href="userListTable.php">Liste des utilisateurs</a></li>
+                </ul>
+            </li>
+
+        <?php
+        }
+        ?>
     </ul>
 </div>

@@ -31,13 +31,13 @@
             <ul class="nav navbar-nav pull-right">
                 <li class="dropdown pull-right">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <i class="icon-user"></i> Admin <b class="caret"></b>
+                        <i class="icon-user"></i> <?php echo $_SESSION['login']; ?> <b class="caret"></b>
                     </a>
 
                     <!-- Menu de l'utilisateur -->
                     <ul class="dropdown-menu">
                         <li><a href="#"><i class="icon-user"></i> Profil</a></li>
-                        <li><a href="login.html"><i class="icon-off"></i> Déconnexion</a></li>
+                        <li><a href="deconnexion.php"><i class="icon-off"></i> Déconnexion</a></li>
                     </ul>
                 </li>
 

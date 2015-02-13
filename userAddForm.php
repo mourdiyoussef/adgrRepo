@@ -1,4 +1,5 @@
 <?php
+include_once("includes/testSession.php");
 if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type'])){
   include_once("modeles/user.php");
   include_once("dao/connectiondb.php");

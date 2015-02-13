@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(!empty($_GET['idCollecte'])){
   include_once("modeles/collecte.php");
   include_once("utils/switchDate.php");

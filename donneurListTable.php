@@ -1,4 +1,5 @@
 <?php
+include_once("includes/testSession.php");
 include_once("modeles/donneur.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");

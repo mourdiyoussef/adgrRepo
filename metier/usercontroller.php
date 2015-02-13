@@ -49,7 +49,7 @@ class UserController{
     }
 
     public function getUserByLoginAndPassword($login, $mdp){
-        return $this->userDao->getUserByLoginAndPassword($login,$mdp);
+        return $this->userDao->getUserByLoginAndPassword($login,md5($mdp));
     }
 }
 ?>

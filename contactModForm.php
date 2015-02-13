@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(!empty($_GET['idContact'])){
   include_once("modeles/contact.php");
   include_once("dao/connectiondb.php");

@@ -1,4 +1,5 @@
 <?php
+include_once("includes/testSession.php");
 if(!empty($_GET['idUser'])){
   include_once("modeles/user.php");
   include_once("dao/connectiondb.php");

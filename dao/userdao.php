@@ -97,17 +97,20 @@ class UserDAO {
 
     public function getUserByLoginAndPassword($login, $mdp){
         $bdd = $this->objConnexion->connect();
-        $req = "select * from user WHERE login=$login and motdePasse=$mdp";
+        $req = "select * from user WHERE login='$login' and motdePasse='$mdp'";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
-        $obj = mysqli_fetch_object($v);
-        $d = new User();
-        $d->setIdUser($obj->iduser);
-        $d->setNom($obj->nom);
-        $d->setPrenom($obj->prenom);
-        $d->setType($obj->typeUser);
-        $d->setLogin($obj->login);
+        if($obj = mysqli_fetch_object($v)){
+            $d = new User();
+            $d->setIdUser($obj->iduser);
+            $d->setNom($obj->nom);
+            $d->setPrenom($obj->prenom);
+            $d->setType($obj->typeUser);
+            $d->setLogin($obj->login);
+            $this->objConnexion->close($bdd);
+            return $d;
+        }
         $this->objConnexion->close($bdd);
-        return $d;
+        return false;
     }
 }
 ?>

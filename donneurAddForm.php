@@ -1,4 +1,6 @@
 <?php
+include_once("includes/testSession.php");
+
 if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['carte']) and !empty($_POST['cin'])){
   include_once("modeles/donneur.php");
   include_once("utils/switchDate.php");
