@@ -1,15 +1,23 @@
 <?php
-include_once("modeles/contact.php");
-include_once("utils/switchDate.php");
+include_once("modeles/user.php");
 include_once("dao/connectiondb.php");
-include_once("dao/contactdao.php");
-include_once("metier/contactcontroller.php");
+include_once("dao/userdao.php");
+include_once("metier/usercontroller.php");
 
-if(!empty($_GET['action']) and !empty($_GET['idContact'])){
+
+if(!empty($_GET['action']) and !empty($_GET['idUser'])){
+    /* -- Supprimer user --------------------------------------------------------- */
     if($_GET['action']=='supp'){
-        $dctrl = new ContactController();
-        $dctrl->deleteContact($_GET['idContact']);
-        header("location:contactListTable.php");
+        $dctrl = new UserController();
+        $dctrl->deleteUser($_GET['idUser']);
+        header("location:userListTable.php");
+    }
+
+    /* -- Rénitialiser MDP User --------------------------------------------------------- */
+    if($_GET['action']=='init'){
+        $dctrl = new UserController();
+        $dctrl->initMotDePasseUser($_GET['idUser']);
+        header("location:userListTable.php");
     }
 }
 
@@ -57,7 +65,7 @@ if(!empty($_GET['action']) and !empty($_GET['idContact'])){
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left"><i class="icon-table"></i> Répértoire</h2>
+            <h2 class="pull-left"><i class="icon-table"></i> Utilisateurs</h2>
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
@@ -86,7 +94,7 @@ if(!empty($_GET['action']) and !empty($_GET['idContact'])){
                         <div class="widget">
 
                             <div class="widget-head">
-                                <div class="pull-left">Liste des contacts</div>
+                                <div class="pull-left">Liste des utilisateurs de l'application</div>
                                 <div class="widget-icons pull-right">
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -103,32 +111,25 @@ if(!empty($_GET['action']) and !empty($_GET['idContact'])){
                                         <th>Nom</th>
                                         <th>Prénom</th>
                                         <th>Type</th>
-                                        <th>mail</th>
-                                        <th>Téléphone</th>
-                                        <th>Fonction</th>
-                                        <th>Adresse</th>
-                                        <th>Remarques</th>
+                                        <th>login</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                             <?php
-                                                $ctrl = new ContactController();
-                                                $list = $ctrl->getAllContact();
+                                                $ctrl = new UserController();
+                                                $list = $ctrl->getAllUser();
                                                 foreach($list as $d){
                                                     echo " <tr>";
-                                                    echo "<td>".$d->getIdContact()."</td>";
+                                                    echo "<td>".$d->getIdUser()."</td>";
                                                     echo "<td>".$d->getNom()."</td>";
                                                     echo "<td>".$d->getPrenom()."</td>";
                                                     echo "<td>".$d->getType()."</td>";
-                                                    echo "<td>".$d->getMail()."</td>";
-                                                    echo "<td>".$d->getTel()."</td>";
-                                                    echo "<td>".$d->getFonction()."</td>";
-                                                    echo "<td>".$d->getAdresse()."</td>";
-                                                    echo "<td>".$d->getRemarques()."</td>";
+                                                    echo "<td>".$d->getLogin()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idContact=".$d->getIdContact()."'>Supprimer</a> |
-                                                                <a href='contactModForm.php?idContact=".$d->getIdContact()."'>Modifier</a>
+                                                                <a href='?action=supp&idUser=".$d->getIdUser()."'>Supprimer</a> |
+                                                                <a href='userModForm.php?idUser=".$d->getIdUser()."'>Modifier</a> |
+                                                                <a href='?action=init&idUser=".$d->getIdUser()."'>Rénit. Mot de passe</a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

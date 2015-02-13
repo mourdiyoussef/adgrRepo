@@ -98,7 +98,7 @@ ENGINE = InnoDB;
 -- Table `adgr_db`.`contact`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `adgr_db`.`contact` (
-  `idContact` INT NOT NULL,
+  `idContact` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(45) NULL,
   `nom` VARCHAR(45) NULL,
   `prenom` VARCHAR(45) NULL,

@@ -1,24 +1,22 @@
 <?php
-if(!empty($_GET['idCollecte'])){
-  include_once("modeles/collecte.php");
-  include_once("utils/switchDate.php");
+if(!empty($_GET['idUser'])){
+  include_once("modeles/user.php");
   include_once("dao/connectiondb.php");
-  include_once("dao/collectedao.php");
-  include_once("metier/collectecontroller.php");
-  $collecteCtrl = new CollecteController();
-  $collecte = $collecteCtrl->getCollecteById($_GET['idCollecte']);
+  include_once("dao/userdao.php");
+  include_once("metier/usercontroller.php");
+  $userCtrl = new UserController();
+  $user = $userCtrl->getUserById($_GET['idUser']);
 }
 
-if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty($_POST['typeCollecte']) and !empty($_POST['id'])){
-  include_once("modeles/collecte.php");
-  include_once("utils/switchDate.php");
+if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type'])){
+  include_once("modeles/user.php");
   include_once("dao/connectiondb.php");
-  include_once("dao/collectedao.php");
-  include_once("metier/collectecontroller.php");
+  include_once("dao/userdao.php");
+  include_once("metier/usercontroller.php");
+  $userCtrl = new UserController();
 
-  $collecteCtrl = new CollecteController();
-  if($collecteCtrl->editCollecte($_POST['dateCollecte'],$_POST['lieuCollecte'],$_POST['typeCollecte'],$_POST['remarques'],$_POST['id'])){
-    header("location:collecteListTable.php");
+  if($userCtrl->editUser($_POST['nom'],$_POST['prenom'],$_POST['type'],$_POST['id'])){
+    header("location:userListTable.php");
   }
 }
 ?>
@@ -66,7 +64,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Modification de la collecte du <?php echo $collecte->getDateCollecte(); ?></h2>
+	      <h2 class="pull-left">Modification de l'utilisateur <?php echo $user->getNom()." ".$user->getPrenom(); ?></h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -93,7 +91,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
               <div class="widget wgreen">
                 
                 <div class="widget-head">
-                  <div class="pull-left"> <?php echo "Id Collecte : ".$collecte->getIdCollecte(); ?></div>
+                  <div class="pull-left"> <?php echo "Id Utilisateur : ".$user->getIdUser(); ?></div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -108,48 +106,41 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="post">
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label">Nom</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" placeholder="" name="nom" value="<?php echo $user->getNom(); ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label">Prénom</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" placeholder="" name="prenom" value="<?php echo $user->getPrenom(); ?>">
+                        </div>
+                      </div>
 
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Date de la collecte</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="dateCollecte" onclick="ds_sh(this);" value="<?php echo $collecte->getDateCollecte();?>">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Lieu de la collecte</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="lieuCollecte" value="<?php echo $collecte->getLieuCollecte();?>">
-                         </div>
-                       </div>
 
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Type de la collecte</label>
-                         <div class="col-lg-8">
-                           <select class="form-control" name="typeCollecte">
-                             <option>CRTS</option>
-                             <option>Mobie</option>
-                           </select>
-                         </div>
-                       </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 control-label">Type</label>
+                        <div class="col-lg-8">
+                          <select class="form-control" name="type">
+                            <option>Admin</option>
+                            <option>utilisateur</option>
+                          </select>
+                        </div>
+                      </div>
 
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Remarques</label>
-                         <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="remarques"><?php echo $collecte->getRemarques();?></textarea>
-                         </div>
-                       </div>
-                       <hr />
-                       <div class="form-group">
-                         <div class="col-lg-offset-1 col-lg-9">
-                           <button type="submit" class="btn btn-primary">Valider</button>
-                           <button type="button" class="btn btn-warning">Annuler</button>
-                         </div>
-                       </div>
+                      <input type="hidden" name="id" value="<?php echo $user->getIdUser(); ?>">
 
-                       <input type="hidden" name="id" value="<?php echo $collecte->getIdCollecte();?>">
-
-                     </form>
+                      <hr />
+                      <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-9">
+                          <button type="submit" class="btn btn-primary">Valider</button>
+                          <button type="button" class="btn btn-warning">Annuler</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
                   <div class="widget-foot">

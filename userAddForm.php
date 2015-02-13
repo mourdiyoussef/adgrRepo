@@ -1,13 +1,12 @@
 <?php
-if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['fonction']) and !empty($_POST['mail'])){
-  include_once("modeles/contact.php");
+if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type'])){
+  include_once("modeles/user.php");
   include_once("dao/connectiondb.php");
-  include_once("dao/contactdao.php");
-  include_once("metier/contactcontroller.php");
+  include_once("dao/userdao.php");
+  include_once("metier/usercontroller.php");
 
-  $contactCtrl = new ContactController();
-  if($contactCtrl->ajouterContact($_POST['nom'],$_POST['prenom'], $_POST['adresse'],$_POST['fonction'],$_POST['mail'],$_POST['tel'],$_POST['type'],
-                                $_POST['remarque'])){
+  $user = new UserController();
+  if($user->ajouterUser($_POST['nom'],$_POST['prenom'], $_POST['type'])){
     echo "<h1>OKKKKKK</h1>";
   }else{
     echo "<h1>oIo</h1>";
@@ -20,7 +19,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['foncti
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Nouvel adherant</title>
+  <title>Nouvel utilisateur</title>
 
   <?php include_once('includes/scripts.php'); ?>
 
@@ -58,7 +57,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['foncti
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Nouveau contact</h2>
+	      <h2 class="pull-left">Nouvel utilisateur</h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -119,45 +118,12 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['foncti
                          <label class="col-lg-4 control-label">Type</label>
                          <div class="col-lg-8">
                            <select class="form-control" name="type">
-                             <option>Bien-faiteur</option>
-                             <option>Bénévole</option>
+                             <option>Admin</option>
+                             <option>utilisateur</option>
                            </select>
                          </div>
                        </div>
 
-
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Adresse</label>
-                         <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="adresse"></textarea>
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Fonction</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="fonction">
-                         </div>
-                       </div>
-
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">E-mail</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="mail">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Telephone</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="tel">
-                         </div>
-                       </div>
-
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Observations</label>
-                         <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="remarque"></textarea>
-                         </div>
-                       </div>
                        <hr />
                        <div class="form-group">
                          <div class="col-lg-offset-1 col-lg-9">

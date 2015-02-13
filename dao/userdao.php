@@ -6,7 +6,7 @@ include_once('connectiondb.php');
  * Date: 02/02/2015
  * Time: 11:59
  */
-class ContactDAO {
+class UserDAO {
 
     private $objConnexion;
 
@@ -19,84 +19,77 @@ class ContactDAO {
      * Les différentes fonctions d'intéraction avec la base de données ============================================
      */
 
-    public function addContact($d){
+    public function addUser($d){
         $bdd = $this->objConnexion->connect();
-        $req = "insert into contact values(
+        $req = "insert into user values(
                 '',
-                '".$d->getType()."',
                 '".$d->getNom()."',
                 '".$d->getPrenom()."',
-                '".$d->getMail()."',
-                '".$d->getTel()."',
-                '".$d->getAdresse()."',
-                '".$d->getFonction()."',
-                '".$d->getRemarques()."')";
+                '".$d->getLogin()."',
+                '".$d->getMdp()."',
+                '".$d->getType()."')";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
-        echo "<script>alert('OK');</script>";
         $this->objConnexion->close($bdd);
         return $v;
     }
 
-    public function getAllContact(){
+    public function getAllUser(){
         $tab = array();
         $bdd = $this->objConnexion->connect();
-        $req = "select * from contact";
+        $req = "select * from user";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         while($obj = mysqli_fetch_object($v)){
-            $d = new Contact();
+            $d = new User();
+            $d->setIdUser($obj->iduser);
             $d->setNom($obj->nom);
             $d->setPrenom($obj->prenom);
-            $d->setAdresse($obj->adresse);
-            $d->setFonction($obj->fonction);
-            $d->setMail($obj->mail);
-            $d->setTel($obj->tel);
-            $d->setRemarques($obj->remarque);
-            $d->setIdContact($obj->idContact);
-            $d->setType($obj->type);
+            $d->setType($obj->typeUser);
+            $d->setLogin($obj->login);
             $tab[] = $d;
         }
         $this->objConnexion->close($bdd);
         return $tab;
     }
 
-    public function deleteContact($id){
+   public function deleteUser($id){
         $bdd = $this->objConnexion->connect();
-        $req = "delete from contact WHERE idContact=$id";
+        $req = "delete from user WHERE idUser=$id";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
         return $v;
     }
 
-    public function getContactById($id){
+     public function getUserById($id){
         $bdd = $this->objConnexion->connect();
-        $req = "select * from contact WHERE idContact=$id";
+        $req = "select * from user WHERE iduser=$id";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $obj = mysqli_fetch_object($v);
-        $d = new Contact();
+        $d = new User();
+        $d->setIdUser($obj->iduser);
         $d->setNom($obj->nom);
         $d->setPrenom($obj->prenom);
-        $d->setAdresse($obj->adresse);
-        $d->setFonction($obj->fonction);
-        $d->setMail($obj->mail);
-        $d->setTel($obj->tel);
-        $d->setRemarques($obj->remarque);
-        $d->setIdContact($obj->idContact);
-        $d->setType($obj->type);
+        $d->setType($obj->typeUser);
+        $d->setLogin($obj->login);
         $this->objConnexion->close($bdd);
         return $d;
     }
 
-    public function editContact($newContact,$oldContactId){
+    public function editUser($newUser,$oldId){
         $bdd = $this->objConnexion->connect();
-        $req = "update contact set  nom='".$newContact->getNom()."',
-                                    prenom='".$newContact->getPrenom()."',
-                                    adresse='".$newContact->getAdresse()."',
-                                    fonction='".$newContact->getFonction()."',
-                                    mail='".$newContact->getMail()."',
-                                    tel='".$newContact->getTel()."',
-                                    type='".$newContact->getType()."',
-                                    remarque='".$newContact->getRemarques()."'
-                              WHERE idContact=$oldContactId";
+        $req = "update user set nom='".$newUser->getNom()."',
+                                prenom='".$newUser->getPrenom()."',
+                                login='".$newUser->getLogin()."',
+                                typeUser='".$newUser->getType()."'
+                              WHERE idUser=$oldId";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $this->objConnexion->close($bdd);
+        return $v;
+    }
+
+    public function initMotDePasseUser($newUser,$oldId){
+        $bdd = $this->objConnexion->connect();
+        $req = "update user set motdePasse='".$newUser->getMdp()."'
+                              WHERE idUser=$oldId";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
         return $v;

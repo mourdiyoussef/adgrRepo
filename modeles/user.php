@@ -9,115 +9,116 @@ class User {
     private $idUser;
     private $nom;
     private $prenom;
-    private $adresse;
-    private $fonction;
-    private $mail;
-    private $tel;
+    private $login;
+    private $mdp;
     private $type;
-    private $remarques;
 
-    function __construct($idContact="", $nom="", $prenom="", $adresse="", $fonction="", $mail="", $tel="", $type="", $remarques="")
+    function __construct($idUser="", $nom="", $prenom="", $login="", $mdp="", $type="")
     {
-        $this->idContact = $idContact;
+        $this->idUser = $idUser;
         $this->nom = $nom;
         $this->prenom = $prenom;
-        $this->adresse = $adresse;
-        $this->fonction = $fonction;
-        $this->mail = $mail;
-        $this->tel = $tel;
+        $this->login = $login;
+        $this->mdp = $mdp;
         $this->type = $type;
-        $this->remarques = $remarques;
     }
 
-    public function getIdContact()
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
     {
-        return $this->idContact;
+        return $this->idUser;
     }
 
-    public function setIdContact($idContact)
+    /**
+     * @param mixed $idUser
+     */
+    public function setIdUser($idUser)
     {
-        $this->idContact = $idContact;
+        $this->idUser = $idUser;
     }
 
+    /**
+     * @return mixed
+     */
     public function getNom()
     {
         return $this->nom;
     }
 
+    /**
+     * @param mixed $nom
+     */
     public function setNom($nom)
     {
         $this->nom = $nom;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPrenom()
     {
         return $this->prenom;
     }
 
+    /**
+     * @param mixed $prenom
+     */
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
     }
 
-    public function getAdresse()
+    /**
+     * @return mixed
+     */
+    public function getLogin()
     {
-        return $this->adresse;
+        return $this->login;
     }
 
-    public function setAdresse($adresse)
+    /**
+     * @param mixed $login
+     */
+    public function setLogin($login)
     {
-        $this->adresse = $adresse;
+        $this->login = $login;
     }
 
-    public function getFonction()
+    /**
+     * @return mixed
+     */
+    public function getMdp()
     {
-        return $this->fonction;
+        return $this->mdp;
     }
 
-    public function setFonction($fonction)
+    /**
+     * @param mixed $mdp
+     */
+    public function setMdp($mdp)
     {
-        $this->fonction = $fonction;
+        $this->mdp = $mdp;
     }
 
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-    }
-
-    public function getTel()
-    {
-        return $this->tel;
-    }
-
-    public function setTel($tel)
-    {
-        $this->tel = $tel;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * @param mixed $type
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
-    public function getRemarques()
-    {
-        return $this->remarques;
-    }
-
-    public function setRemarques($remarques)
-    {
-        $this->remarques = $remarques;
-    }
 
 }
 
