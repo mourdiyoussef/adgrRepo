@@ -32,14 +32,14 @@
         </li>
         <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Collecte  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
             <ul>
-                <li><a href="post.html">Nouvelle collecte</a></li>
-                <li><a href="post.html">Liste des collectes</a></li>
+                <li><a href="collecteAddForm.php">Nouvelle collecte</a></li>
+                <li><a href="collecteListTable.php">Liste des collectes</a></li>
             </ul>
         </li>
         <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Contacts  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
             <ul>
-                <li><a href="post.html">Nouveau contact</a></li>
-                <li><a href="post.html">Liste des contacts</a></li>
+                <li><a href="contactAddForm.php">Nouveau contact</a></li>
+                <li><a href="contactListTable.php">Liste des contacts</a></li>
             </ul>
         </li>
     </ul>
