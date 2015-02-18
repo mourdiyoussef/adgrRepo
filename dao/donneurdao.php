@@ -150,5 +150,23 @@ class DonneurDAO {
         $this->objConnexion->close($bdd);
         return $v;
     }
+
+    public function getNbreDonneur(){
+        $bdd = $this->objConnexion->connect();
+        $req = "select * from donneur where groupeSonguin=''";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $nbr = mysqli_num_rows($v);
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+
+    public function getNbreDonneurByGroup($group){
+        $bdd = $this->objConnexion->connect();
+        $req = "select * from donneur where groupeSonguin='$group'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $nbr = mysqli_num_rows($v);
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
 }
 ?>

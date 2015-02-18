@@ -4,6 +4,12 @@
  * Date: 03/02/2015
  * Time: 16:05
  */
+$d=new DonneurController();
+$oneg = $d->getNbreDonneurByGroup("O-");
+$aneg = $d->getNbreDonneurByGroup("A-");
+$bneg = $d->getNbreDonneurByGroup("B-");
+$abneg = $d->getNbreDonneurByGroup("AB-");
+$totalneg = $oneg + $aneg + $bneg + $abneg;
 ?>
 <header>
     <div class="container">
@@ -28,40 +34,60 @@
                     <div class="hdata">
                         <div class="mcol-left">
                             <!-- Icon with red background -->
-                            <i class="icon-signal bred"></i>
+                            <i><img src="img/banner/Oneg.png" width="40" height="40"></i>
                         </div>
                         <div class="mcol-right">
                             <!-- Number of visitors -->
-                            <p><a href="#">7000</a> <em>visits</em></p>
+                            <p><a href="#"><?php echo $oneg;  ?></a></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hdata">
+                        <div class="mcol-left">
+                            <!-- Icon with red background -->
+                            <i><img src="img/banner/Aneg.png" width="40" height="40"></i>
+                        </div>
+                        <div class="mcol-right">
+                            <!-- Number of visitors -->
+                            <p><a href="#"><?php  echo $aneg; ?></a></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hdata">
+                        <div class="mcol-left">
+                            <!-- Icon with red background -->
+                            <i><img src="img/banner/Bneg.png" width="40" height="40"></i>
+                        </div>
+                        <div class="mcol-right">
+                            <!-- Number of visitors -->
+                            <p><a href="#"><?php echo $bneg; ?></a></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hdata">
+                        <div class="mcol-left">
+                            <!-- Icon with red background -->
+                            <i><img src="img/banner/ABneg.png" width="40" height="40"></i>
+                        </div>
+                        <div class="mcol-right">
+                            <!-- Number of visitors -->
+                            <p><a href="#"><?php echo $abneg; ?></a></p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hdata">
+                        <div class="mcol-left">
+                            <!-- Icon with red background -->
+                            <i><img src="img/banner/Tneg.png" width="40" height="40"></i>
+                        </div>
+                        <div class="mcol-right">
+                            <!-- Number of visitors -->
+                            <p><a href="#"><?php echo $totalneg; ?></a></p>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
-                    <!-- Members data -->
-                    <div class="hdata">
-                        <div class="mcol-left">
-                            <!-- Icon with blue background -->
-                            <i class="icon-user bblue"></i>
-                        </div>
-                        <div class="mcol-right">
-                            <!-- Number of visitors -->
-                            <p><a href="#">3000</a> <em>users</em></p>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
 
-                    <!-- revenue data -->
-                    <div class="hdata">
-                        <div class="mcol-left">
-                            <!-- Icon with green background -->
-                            <i class="icon-money bgreen"></i>
-                        </div>
-                        <div class="mcol-right">
-                            <!-- Number of visitors -->
-                            <p><a href="#">5000</a><em>orders</em></p>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
 
                 </div>
             </div>

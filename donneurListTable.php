@@ -127,7 +127,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
                                                     echo "<td>".$d->getAptPourDon()."</td>";
                                                     echo "<td>".$d->getTel()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."'>Supprimer</a> |
+                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
                                                                 <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
                                                                 <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'>Détails</a>
                                                             </td>";

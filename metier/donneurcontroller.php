@@ -56,5 +56,9 @@ class DonneurController{
             $sexe, $etatCArte, $remarques);
         return $this->donneurDao->editDonneur($donneur, $oldDonneurId);
     }
+
+    public function getNbreDonneurByGroup($group){
+        return $this->donneurDao->getNbreDonneurByGroup($group);
+    }
 }
 ?>

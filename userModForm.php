@@ -29,7 +29,45 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
   <title>Nouvelle collecte</title>
 
   <?php include_once('includes/scripts.php'); ?>
+  <script type="text/javascript">
+    /**
+     * Basic jQuery Validation Form Demo Code
+     * Copyright Sam Deering 2012
+     * Licence: http://www.jquery4u.com/license/
+     */
+    (function($,W,D)
+    {
+      var JQUERY4U = {};
 
+      JQUERY4U.UTIL =
+      {
+        setupFormValidation: function()
+        {
+          //form validation rules
+          $("#register-form").validate({
+            rules: {
+              nom: "required",
+              prenom: "required"
+
+            },
+            messages: {
+              nom: "Entrez le nom",
+              prenom: "Entrez le prénom"
+            },
+            submitHandler: function(form) {
+              form.submit();
+            }
+          });
+        }
+      }
+
+      //when the dom has loaded setup form validation rules
+      $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+      });
+
+    })(jQuery, window, document);
+  </script>
 </head>
 
 <body>
@@ -106,7 +144,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
                     <hr />
 
                     <!-- Form starts.-->
-                    <form class="form-horizontal" role="form" method="post">
+                    <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form">
                       <div class="form-group">
                         <label class="col-lg-4 control-label">Nom</label>
                         <div class="col-lg-8">

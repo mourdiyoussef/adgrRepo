@@ -119,7 +119,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                                                     echo "<td>".$d->getTypeCollecte()."</td>";
                                                     echo "<td>".$d->getRemarques()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idCollecte=".$d->getIdCollecte()."'>Supprimer</a> |
+    <a href='?action=supp&idCollecte=".$d->getIdCollecte()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
                                                                 <a href='collecteModForm.php?idCollecte=".$d->getIdCollecte()."'>Modifier</a> |
                                                                 <a href='collecteFiche.php?idCollecte=".$d->getIdCollecte()."'>Détails</a>
                                                             </td>";

@@ -127,7 +127,7 @@ if(!empty($_GET['action']) and !empty($_GET['idUser'])){
                                                     echo "<td>".$d->getType()."</td>";
                                                     echo "<td>".$d->getLogin()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idUser=".$d->getIdUser()."'>Supprimer</a> |
+                                                                <a href='?action=supp&idUser=".$d->getIdUser()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
                                                                 <a href='userModForm.php?idUser=".$d->getIdUser()."'>Modifier</a> |
                                                                 <a href='?action=init&idUser=".$d->getIdUser()."'>Rénit. Mot de passe</a>
                                                             </td>";

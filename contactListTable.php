@@ -127,7 +127,7 @@ if(!empty($_GET['action']) and !empty($_GET['idContact'])){
                                                     echo "<td>".$d->getAdresse()."</td>";
                                                     echo "<td>".$d->getRemarques()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idContact=".$d->getIdContact()."'>Supprimer</a> |
+                                                                <a href='?action=supp&idContact=".$d->getIdContact()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
                                                                 <a href='contactModForm.php?idContact=".$d->getIdContact()."'>Modifier</a>
                                                             </td>";
                                                     echo "</tr>";
