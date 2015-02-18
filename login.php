@@ -10,6 +10,7 @@ if(!empty($_POST['login']) and !empty($_POST['mdp'])) {
       session_start();
       $_SESSION['login'] = $u->getLogin();
       $_SESSION['role'] = $u->getType();
+      $_SESSION['idUser'] = $u->getIdUser();
       header("location:donneurListTable.php");
 
   }else{

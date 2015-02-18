@@ -1,26 +1,17 @@
 <?php
-include_once("includes/testSession.php");
-include_once("modeles/donneur.php");
+session_start();
+include_once("modeles/collecte.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");
-include_once("dao/donneurdao.php");
-include_once("metier/donneurcontroller.php");
+include_once("dao/collectedao.php");
+include_once("metier/collectecontroller.php");
 
-/* ----------------- Supprimer donneur -------------------- */
-if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
+if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
     if($_GET['action']=='supp'){
-        $dctrl = new DonneurController();
-        $dctrl->deleteDonneur($_GET['idDonneur']);
-        header("location:donneurListTable.php");
+        $dctrl = new CollecteController();
+        $dctrl->deleteCollecte($_GET['idCollecte']);
+        header("location:collecteListTable.php");
     }
-}
-
-/* ----------------Recherche rapide ----------------------- */
-$ctrl = new DonneurController();
-if(!empty($_POST['recherche'])){
-    $list = $ctrl->getAllDonneurWithCriter($_POST['recherche']);
-}else{
-    $list = $ctrl->getAllDonneur();
 }
 
 ?>
@@ -96,7 +87,7 @@ if(!empty($_POST['recherche'])){
                         <div class="widget">
 
                             <div class="widget-head">
-                                <div class="pull-left">Tous les donneurs</div>
+                                <div class="pull-left">Toutes les collectes</div>
                                 <div class="widget-icons pull-right">
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -110,35 +101,28 @@ if(!empty($_POST['recherche'])){
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>CIN</th>
-                                        <th>Groupe</th>
-                                        <th>Dernier don</th>
-                                        <th>Prochain don</th>
-                                        <th>Etat</th>
-                                        <th>Téléphone</th>
+                                        <th>Date de la collecte</th>
+                                        <th>Lieu de la collecte</th>
+                                        <th>Type de la collecte</th>
+                                        <th>Remarques</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                             <?php
+                                                $ctrl = new CollecteController();
+                                                $list = $ctrl->getAllCollecte();
                                                 foreach($list as $d){
                                                     echo " <tr>";
-                                                    echo "<td>".$d->getCodeAd()."</td>";
-                                                    echo "<td>".$d->getNom()."</td>";
-                                                    echo "<td>".$d->getPrenom()."</td>";
-                                                    echo "<td>".$d->getCin()."</td>";
-                                                    echo "<td>".$d->getGroupeSanguin()."</td>";
-                                                    echo "<td>".$d->getDernierDon()."</td>";
-                                                    echo "<td>Prochain don</td>";
-                                                    echo "<td>".$d->getAptPourDon()."</td>";
-                                                    echo "<td>".$d->getTel()."</td>";
+                                                    echo "<td>".$d->getIdCollecte()."</td>";
+                                                    echo "<td>".$d->getDateCollecte()."</td>";
+                                                    echo "<td>".$d->getLieuCollecte()."</td>";
+                                                    echo "<td>".$d->getTypeCollecte()."</td>";
+                                                    echo "<td>".$d->getRemarques()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."'>Supprimer</a> |
-                                                                <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
-                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'>Détails</a> |
-                                                                <a href='donAddForm.php?idDonneur=".$d->getIdDonneur()."'>+ don</a>
+                                                                <a href='?action=supp&idCollecte=".$d->getIdCollecte()."'>Supprimer</a> |
+                                                                <a href='collecteModForm.php?idCollecte=".$d->getIdCollecte()."'>Modifier</a> |
+                                                                <a href='collecteFiche.php?idCollecte=".$d->getIdCollecte()."'>Détails</a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }
@@ -165,6 +149,7 @@ if(!empty($_POST['recherche'])){
                             </div>
 
                         </div>
+
 
                     </div>
 

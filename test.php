@@ -11,7 +11,7 @@ include_once('metier\donneurcontroller.php');
 
 $dDao = new DonneurDAO();
 
-$t = $dDao->getAllDonneur();
+$t = $dDao->getDonneurByCodeAd("aaaaa");
 
-
+echo $t->getIdDonneur();
 ?>

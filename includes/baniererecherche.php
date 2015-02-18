@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: youssef
  * Date: 03/02/2015
  * Time: 15:58
@@ -21,9 +20,9 @@
             </ul>
 
             <!-- Search form -->
-            <form class="navbar-form navbar-left" role="search">
+            <form class="navbar-form navbar-left" role="search" action="donneurListTable.php" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input type="text" class="form-control-recherche-rapide" placeholder="Recherche rapide" name="recherche">
                 </div>
             </form>
 
@@ -36,7 +35,7 @@
 
                     <!-- Menu de l'utilisateur -->
                     <ul class="dropdown-menu">
-                        <li><a href="#"><i class="icon-user"></i> Profil</a></li>
+                        <li><a href="userInfo.php"><i class="icon-user"></i> Modifier le mot de passe</a></li>
                         <li><a href="deconnexion.php"><i class="icon-off"></i> Déconnexion</a></li>
                     </ul>
                 </li>

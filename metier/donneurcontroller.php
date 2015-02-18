@@ -56,5 +56,12 @@ class DonneurController{
             $sexe, $etatCArte, $remarques);
         return $this->donneurDao->editDonneur($donneur, $oldDonneurId);
     }
+    public function getDonneurByCodeAd($id){
+        return $this->donneurDao->getDonneurByCodeAd($id);
+    }
+
+    public function getAllDonneurWithCriter($critere){
+        return $this->donneurDao->getAllDonneurWithCriter($critere);
+    }
 }
 ?>

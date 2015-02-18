@@ -86,6 +86,15 @@ class UserDAO {
         return $v;
     }
 
+    public function editPassword($newPass,$id){
+        $bdd = $this->objConnexion->connect();
+        $req = "update user set motdePasse='".$newPass."'
+                              WHERE idUser=$id";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $this->objConnexion->close($bdd);
+        return $v;
+    }
+
     public function initMotDePasseUser($newUser,$oldId){
         $bdd = $this->objConnexion->connect();
         $req = "update user set motdePasse='".$newUser->getMdp()."'
