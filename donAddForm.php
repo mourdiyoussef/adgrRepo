@@ -1,31 +1,23 @@
 <?php
-session_start();
-include_once("modeles/collecte.php");
-include_once("modeles/notification.php");
-include_once("modeles/donneur.php");
-include_once("modeles/user.php");
+include_once("includes/testSession.php");
 include_once("utils/switchDate.php");
+include_once("modeles/collecte.php");
 include_once("dao/connectiondb.php");
 include_once("dao/collectedao.php");
-include_once("dao/donneurdao.php");
-include_once("dao/userdao.php");
-include_once("dao/notificationdao.php");
 include_once("metier/collectecontroller.php");
-include_once("metier/notificationcontroller.php");
-include_once("metier/donneurcontroller.php");
-if(!empty($_POST['idCollecte']) and !empty($_POST['codeAd'])  and !empty($_POST['reponse']) and !empty($_POST['remarque'])){
+include_once("modeles/don.php");
+include_once("metier/doncontroller.php");
+include_once("dao/dondao.php");
 
-    $ctrl = new NotificationController();
-    if($ctrl->ajouterNotification($_POST['idCollecte'],$_POST['codeAd'], $_POST['reponse'],$_POST['remarque'])){
-      echo "<h1>OKKKKKK</h1>";
+if(!empty($_POST['idCollecte']) and !empty($_POST['idDonneur'])){
+    $ctrl = new DonController();
+    if($ctrl->ajouterDon($_POST['idDonneur'],$_POST['idCollecte'])){
+        header("location:donneurListTable.php");
     }else{
-      echo "<h1>oIo</h1>";
+        echo "<h1>oIo</h1>";
     }
-
 }
-if(!empty($_GET['idDonneur'])){
 
-}
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +25,7 @@ if(!empty($_GET['idDonneur'])){
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Nouveau Don</title>
+  <title>Nouveau don</title>
 
   <?php include_once('includes/scripts.php'); ?>
 
@@ -98,7 +90,7 @@ if(!empty($_GET['idDonneur'])){
               <div class="widget wgreen">
 
                 <div class="widget-head">
-                  <div class="pull-left">Formulaire d'ajout de don</div>
+                  <div class="pull-left">Formulaire d'ajout de notification</div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -113,7 +105,7 @@ if(!empty($_GET['idDonneur'])){
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                     <form class="form-horizontal" role="form" method="post">
 
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Collecte du</label>
@@ -130,10 +122,7 @@ if(!empty($_GET['idDonneur'])){
                            </select>
                          </div>
                        </div>
-
-                         <input type="hidden" name="idUser" value="<?php echo $idUser; ?>">
-
-                       </div>
+                        <input type="hidden" name="idDonneur" value="<?php echo $_GET['idDonneur']; ?>">
                        <hr />
                        <div class="form-group">
                          <div class="col-lg-offset-1 col-lg-9">

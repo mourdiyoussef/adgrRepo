@@ -37,7 +37,7 @@ if(!empty($_POST['recherche'])){
 
 <body>
 
-<!--Baniere de recherche rapide et parametre de l'utilisateur -->
+<!-- Baniere de recherche rapide et parametre de l'utilisateur -->
 <?php include_once('includes/baniererecherche.php'); ?>
 
 <!-- baniere principale contenant le logo -->
