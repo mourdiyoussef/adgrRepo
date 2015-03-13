@@ -11,6 +11,9 @@ include_once('metier\donneurcontroller.php');
 
 $dDao = new DonneurDAO();
 
-$t = $dDao->getNbreDonneurByGroup("A-");
-echo $t;
+    $ctrl = new DonneurController();
+$oneg = $ctrl->getNbreAllDonneurByCollecte(4);
+    echo $oneg;
+
+//echo $t;
 ?>

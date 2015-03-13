@@ -1,25 +1,21 @@
 <?php
 session_start();
-if(!empty($_GET['idCollecte'])){
-  include_once("modeles/collecte.php");
-  include_once("utils/switchDate.php");
-  include_once("dao/connectiondb.php");
-  include_once("dao/collectedao.php");
-  include_once("metier/collectecontroller.php");
-  $collecteCtrl = new CollecteController();
-  $collecte = $collecteCtrl->getCollecteById($_GET['idCollecte']);
-}
 
-if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty($_POST['typeCollecte']) and !empty($_POST['id'])){
-  include_once("modeles/collecte.php");
-  include_once("utils/switchDate.php");
-  include_once("dao/connectiondb.php");
-  include_once("dao/collectedao.php");
-  include_once("metier/collectecontroller.php");
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+if(!empty($_POST['categorie'])) {
 
-  $collecteCtrl = new CollecteController();
-  if($collecteCtrl->editCollecte($_POST['dateCollecte'],$_POST['lieuCollecte'],$_POST['typeCollecte'],$_POST['remarques'],$_POST['id'])){
-    header("location:collecteListTable.php");
+  include_once("modeles/categorie.php");
+  include_once("dao/connectiondb.php");
+  include_once("dao/categoriedao.php");
+  include_once("metier/categoriecontroller.php");
+
+  $categorieCtrl = new CategorieController();
+  if ($categorieCtrl->ajouterCategorie($_POST['categorie'])) {
+
+  } else {
+
   }
 }
 ?>
@@ -29,7 +25,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Nouvelle collecte</title>
+  <title>Nouvel adherant</title>
 
   <?php include_once('includes/scripts.php'); ?>
   <script type="text/javascript">
@@ -49,20 +45,10 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
           //form validation rules
           $("#register-form").validate({
             rules: {
-
-              dateCollecte: {
-                required: true,
-                date: true
-              },
-              lieuCollecte: "required"
-
+              categorie: "required"
             },
             messages: {
-              dateCollecte: {
-                required: "Entrez la date de la collecte",
-                date: "Entrez une date valide"
-              },
-              lieuCollecte: "Entrez le lieu de la collecte"
+              categorie: "Entrez le nom de la categorie"
             },
             submitHandler: function(form) {
               form.submit();
@@ -78,6 +64,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
 
     })(jQuery, window, document);
   </script>
+
 </head>
 
 <body>
@@ -112,7 +99,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Modification de la collecte du <?php echo $collecte->getDateCollecte(); ?></h2>
+	      <h2 class="pull-left">Nouvelle categorie</h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -139,7 +126,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
               <div class="widget wgreen">
                 
                 <div class="widget-head">
-                  <div class="pull-left"> <?php echo "Id Collecte : ".$collecte->getIdCollecte(); ?></div>
+                  <div class="pull-left">Formulaire d'ajout</div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -154,35 +141,11 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post"  novalidate="novalidate" id="register-form" enctype="multipart/form-data">
-
+                     <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form">
                        <div class="form-group">
-                         <label class="col-lg-4 control-label">Date de la collecte</label>
+                         <label class="col-lg-4 control-label">Nom de catégorie</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="dateCollecte" onclick="ds_sh(this);" value="<?php echo $collecte->getDateCollecte();?>">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Lieu de la collecte</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="lieuCollecte" value="<?php echo $collecte->getLieuCollecte();?>">
-                         </div>
-                       </div>
-
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Type de la collecte</label>
-                         <div class="col-lg-8">
-                           <select class="form-control" name="typeCollecte">
-                             <option>CRTS</option>
-                             <option>Mobie</option>
-                           </select>
-                         </div>
-                       </div>
-
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Remarques</label>
-                         <div class="col-lg-8">
-                           <textarea class="form-control" rows="3" placeholder="" name="remarques"><?php echo $collecte->getRemarques();?></textarea>
+                           <input type="text" class="form-control" placeholder="" name="categorie">
                          </div>
                        </div>
                        <hr />
@@ -192,9 +155,6 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
                            <button type="button" class="btn btn-warning">Annuler</button>
                          </div>
                        </div>
-
-                       <input type="hidden" name="id" value="<?php echo $collecte->getIdCollecte();?>">
-
                      </form>
                   </div>
                 </div>

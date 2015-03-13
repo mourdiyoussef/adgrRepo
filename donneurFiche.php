@@ -1,4 +1,5 @@
 <?php
+include_once("includes/testSession.php");
 if(!empty($_GET['idDonneur'])){
     include_once("modeles/donneur.php");
     include_once("utils/switchDate.php");

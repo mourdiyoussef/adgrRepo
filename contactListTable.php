@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once("modeles/contact.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");

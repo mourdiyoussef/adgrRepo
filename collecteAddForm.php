@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty($_POST['typeCollecte']) and !empty($_POST['remarque'])){
   include_once("modeles/collecte.php");
   include_once("utils/switchDate.php");

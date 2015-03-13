@@ -49,7 +49,11 @@ class UserController{
     }
 
     public function getUserByLoginAndPassword($login, $mdp){
-        return $this->userDao->getUserByLoginAndPassword($login,$mdp);
+        return $this->userDao->getUserByLoginAndPassword($login,md5($mdp));
+    }
+
+    public function editPassword($newPass, $idUser){
+        return $this->userDao->editPassword(md5($newPass),$idUser);
     }
 }
 ?>

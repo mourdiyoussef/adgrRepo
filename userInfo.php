@@ -1,13 +1,13 @@
 <?php
 include_once("includes/testSession.php");
-if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type'])){
-  include_once("modeles/user.php");
-  include_once("dao/connectiondb.php");
-  include_once("dao/userdao.php");
-  include_once("metier/usercontroller.php");
-
-  $user = new UserController();
-  if($user->ajouterUser($_POST['nom'],$_POST['prenom'], $_POST['type'])){
+include_once("modeles/user.php");
+include_once("dao/connectiondb.php");
+include_once("dao/userdao.php");
+include_once("metier/usercontroller.php");
+$ctrl = new UserController();
+$user = $ctrl->getUserById($_SESSION['idUser']);
+if(!empty($_POST['mdpN']) and !empty($_POST['mdpNC']) and !empty($_POST['idUser'])){
+  if($ctrl->editPassword($_POST['mdpNC'],$_POST['idUser'])){
     echo "<h1>OKKKKKK</h1>";
   }else{
     echo "<h1>oIo</h1>";
@@ -23,45 +23,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
   <title>Nouvel utilisateur</title>
 
   <?php include_once('includes/scripts.php'); ?>
-  <script type="text/javascript">
-    /**
-     * Basic jQuery Validation Form Demo Code
-     * Copyright Sam Deering 2012
-     * Licence: http://www.jquery4u.com/license/
-     */
-    (function($,W,D)
-    {
-      var JQUERY4U = {};
 
-      JQUERY4U.UTIL =
-      {
-        setupFormValidation: function()
-        {
-          //form validation rules
-          $("#register-form").validate({
-            rules: {
-              nom: "required",
-              prenom: "required"
-
-            },
-            messages: {
-              nom: "Entrez le nom",
-              prenom: "Entrez le prénom"
-            },
-            submitHandler: function(form) {
-              form.submit();
-            }
-          });
-        }
-      }
-
-      //when the dom has loaded setup form validation rules
-      $(D).ready(function($) {
-        JQUERY4U.UTIL.setupFormValidation();
-      });
-
-    })(jQuery, window, document);
-  </script>
 </head>
 
 <body>
@@ -96,7 +58,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Nouvel utilisateur</h2>
+	      <h2 class="pull-left">Information du compte</h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -123,7 +85,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
               <div class="widget wgreen">
                 
                 <div class="widget-head">
-                  <div class="pull-left">Formulaire d'ajout</div>
+                  <div class="pull-left">Fiche</div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -134,40 +96,56 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
                 <div class="widget-content">
                   <div class="padd">
 
-                    <h6>Veuillez remplire tous les champs</h6>
-                    <hr />
-
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form" >
+                     <form class="form-horizontal" role="form" method="post">
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Nom</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="nom">
+                           <input type="text" class="form-control" placeholder="" name="nom" value="<?php echo $user->getNom(); ?>" disabled>
                          </div>
                        </div>
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Prénom</label>
                          <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="prenom">
+                           <input type="text" class="form-control" placeholder="" name="prenom" value="<?php echo $user->getPrenom(); ?>" disabled>
                          </div>
                        </div>
 
+                       <div class="form-group">
+                         <label class="col-lg-4 control-label">Privilège</label>
+                         <div class="col-lg-8">
+                           <input type="text" class="form-control" placeholder="" name="type" value="<?php echo $user->getType(); ?>" disabled>
+                         </div>
+                       </div>
 
                        <div class="form-group">
-                         <label class="col-lg-4 control-label">Type</label>
+                         <label class="col-lg-4 control-label">Login</label>
                          <div class="col-lg-8">
-                           <select class="form-control" name="type">
-                             <option>Admin</option>
-                             <option>utilisateur</option>
-                           </select>
+                           <input type="text" class="form-control" placeholder="" name="login" value="<?php echo $user->getLogin(); ?>" disabled>
                          </div>
                        </div>
 
                        <hr />
                        <div class="form-group">
+                         <label class="col-lg-4 control-label">Nouveau mot de passe</label>
+                         <div class="col-lg-8">
+                           <input type="password" class="form-control" placeholder="" name="mdpN" value="">
+                         </div>
+                       </div>
+                       <div class="form-group">
+                         <label class="col-lg-4 control-label">Confirmation</label>
+                         <div class="col-lg-8">
+                           <input type="password" class="form-control" placeholder="" name="mdpNC" value="">
+                         </div>
+                       </div>
+
+                       <input type="hidden" name="idUser" value="<?php echo $user->getIdUser(); ?>">
+
+                       <hr />
+                       <div class="form-group">
                          <div class="col-lg-offset-1 col-lg-9">
                            <button type="submit" class="btn btn-primary">Valider</button>
-                           <button type="button" class="btn btn-warning">Annuler</button>
+                           <button type="reset" class="btn btn-warning">Annuler</button>
                          </div>
                        </div>
                      </form>

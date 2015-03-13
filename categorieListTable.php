@@ -1,17 +1,19 @@
 <?php
 session_start();
-
-include_once("modeles/collecte.php");
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+include_once("modeles/categorie.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");
-include_once("dao/collectedao.php");
-include_once("metier/collectecontroller.php");
+include_once("dao/categoriedao.php");
+include_once("metier/categoriecontroller.php");
 
-if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
+if(!empty($_GET['action']) and !empty($_GET['idCategorie'])){
     if($_GET['action']=='supp'){
-        $dctrl = new CollecteController();
-        $dctrl->deleteCollecte($_GET['idCollecte']);
-        header("location:collecteListTable.php");
+        $dctrl = new CategorieController();
+        $dctrl->deleteCategorie($_GET['idCategorie']);
+        header("location:categorieListTable.php");
     }
 }
 
@@ -21,7 +23,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Nouvel adherant</title>
+    <title>Liste des contacts</title>
 
     <?php include_once('includes/scripts.php'); ?>
 
@@ -59,7 +61,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left"><i class="icon-table"></i> Liste des donneurs</h2>
+            <h2 class="pull-left"><i class="icon-table"></i> Répértoire</h2>
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
@@ -88,7 +90,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                         <div class="widget">
 
                             <div class="widget-head">
-                                <div class="pull-left">Toutes les collectes</div>
+                                <div class="pull-left">Liste des categories</div>
                                 <div class="widget-icons pull-right">
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -102,28 +104,21 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Date de la collecte</th>
-                                        <th>Lieu de la collecte</th>
-                                        <th>Type de la collecte</th>
-                                        <th>Remarques</th>
+                                        <th>Nom</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                             <?php
-                                                $ctrl = new CollecteController();
-                                                $list = $ctrl->getAllCollecte();
+                                                $ctrl = new CategorieController();
+                                                $list = $ctrl->getAllCategorie();
                                                 foreach($list as $d){
                                                     echo " <tr>";
-                                                    echo "<td>".$d->getIdCollecte()."</td>";
-                                                    echo "<td>".$d->getDateCollecte()."</td>";
-                                                    echo "<td>".$d->getLieuCollecte()."</td>";
-                                                    echo "<td>".$d->getTypeCollecte()."</td>";
-                                                    echo "<td>".$d->getRemarques()."</td>";
+                                                    echo "<td>".$d->getIdcategorieDepense()."</td>";
+                                                    echo "<td>".$d->getCategory()."</td>";
                                                     echo "<td>
-    <a href='?action=supp&idCollecte=".$d->getIdCollecte()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
-                                                                <a href='collecteModForm.php?idCollecte=".$d->getIdCollecte()."'>Modifier</a> |
-                                                                <a href='collecteFiche.php?idCollecte=".$d->getIdCollecte()."'>Détails</a>
+                                                                <a href='?action=supp&idCategorie=".$d->getIdcategorieDepense()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
+                                                                <a href='categorieModForm.php?idCategorie=".$d->getIdcategorieDepense()."'>Modifier</a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

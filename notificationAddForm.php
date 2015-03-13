@@ -1,17 +1,27 @@
 <?php
-include_once("includes/testSession.php");
-if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type'])){
-  include_once("modeles/user.php");
-  include_once("dao/connectiondb.php");
-  include_once("dao/userdao.php");
-  include_once("metier/usercontroller.php");
+session_start();
+include_once("modeles/collecte.php");
+include_once("modeles/notification.php");
+include_once("modeles/donneur.php");
+include_once("modeles/user.php");
+include_once("utils/switchDate.php");
+include_once("dao/connectiondb.php");
+include_once("dao/collectedao.php");
+include_once("dao/donneurdao.php");
+include_once("dao/userdao.php");
+include_once("dao/notificationdao.php");
+include_once("metier/collectecontroller.php");
+include_once("metier/notificationcontroller.php");
+include_once("metier/donneurcontroller.php");
+if(!empty($_POST['idCollecte']) and !empty($_POST['codeAd'])  and !empty($_POST['reponse']) and !empty($_POST['remarque'])){
 
-  $user = new UserController();
-  if($user->ajouterUser($_POST['nom'],$_POST['prenom'], $_POST['type'])){
-    echo "<h1>OKKKKKK</h1>";
-  }else{
-    echo "<h1>oIo</h1>";
-  }
+    $ctrl = new NotificationController();
+    if($ctrl->ajouterNotification($_POST['idCollecte'],$_POST['codeAd'], $_POST['reponse'],$_POST['remarque'])){
+      echo "<h1>OKKKKKK</h1>";
+    }else{
+      echo "<h1>oIo</h1>";
+    }
+
 }
 ?>
 
@@ -20,48 +30,10 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Nouvel utilisateur</title>
+  <title>Nouvelle notification</title>
 
   <?php include_once('includes/scripts.php'); ?>
-  <script type="text/javascript">
-    /**
-     * Basic jQuery Validation Form Demo Code
-     * Copyright Sam Deering 2012
-     * Licence: http://www.jquery4u.com/license/
-     */
-    (function($,W,D)
-    {
-      var JQUERY4U = {};
 
-      JQUERY4U.UTIL =
-      {
-        setupFormValidation: function()
-        {
-          //form validation rules
-          $("#register-form").validate({
-            rules: {
-              nom: "required",
-              prenom: "required"
-
-            },
-            messages: {
-              nom: "Entrez le nom",
-              prenom: "Entrez le prénom"
-            },
-            submitHandler: function(form) {
-              form.submit();
-            }
-          });
-        }
-      }
-
-      //when the dom has loaded setup form validation rules
-      $(D).ready(function($) {
-        JQUERY4U.UTIL.setupFormValidation();
-      });
-
-    })(jQuery, window, document);
-  </script>
 </head>
 
 <body>
@@ -92,16 +64,16 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 
   	<!-- Main bar -->
   	<div class="mainbar">
-      
+
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Nouvel utilisateur</h2>
+	      <h2 class="pull-left">Nouvelle notification</h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
-          <a href="index.html"><i class="icon-home"></i> Home</a> 
+          <a href="index.html"><i class="icon-home"></i> Home</a>
           <!-- Divider -->
-          <span class="divider">/</span> 
+          <span class="divider">/</span>
           <a href="#" class="bread-current">Forms</a>
         </div>
 
@@ -121,11 +93,11 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 
 
               <div class="widget wgreen">
-                
+
                 <div class="widget-head">
-                  <div class="pull-left">Formulaire d'ajout</div>
+                  <div class="pull-left">Formulaire d'ajout de notification</div>
                   <div class="widget-icons pull-right">
-                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
+                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
                   </div>
                   <div class="clearfix"></div>
@@ -138,31 +110,49 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form" >
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Nom</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="nom">
-                         </div>
-                       </div>
-                       <div class="form-group">
-                         <label class="col-lg-4 control-label">Prénom</label>
-                         <div class="col-lg-8">
-                           <input type="text" class="form-control" placeholder="" name="prenom">
-                         </div>
-                       </div>
-
+                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
 
                        <div class="form-group">
-                         <label class="col-lg-4 control-label">Type</label>
+                         <label class="col-lg-4 control-label">Collecte du</label>
                          <div class="col-lg-8">
-                           <select class="form-control" name="type">
-                             <option>Admin</option>
-                             <option>utilisateur</option>
+
+                           <select class="form-control" name="idCollecte">
+                               <?php
+                               $collecteCtrl = new CollecteController();
+                               $listCollecte = $collecteCtrl->getAllCollecte();
+                               foreach($listCollecte as $c){
+                                   echo "<option value=".$c->getIdCollecte().">".$c->getDateCollecte()."</option>";
+                               }
+                               ?>
                            </select>
                          </div>
                        </div>
 
+                       <div class="form-group">
+                         <label class="col-lg-4 control-label">Code d'adhérant</label>
+                         <div class="col-lg-8">
+                           <input type="text" class="form-control" placeholder="" name="codeAd">
+                         </div>
+                       </div>
+                         <div class="form-group">
+                             <label class="col-lg-4 control-label">Réponse</label>
+                             <div class="col-lg-8">
+
+                                 <select class="form-control" name="reponse">
+                                    <option>confirmée</option>
+                                    <option>à rappler</option>
+                                    <option>Boite vocale</option>
+                                    <option>Hors zone</option>
+                                    <option>Ne répond pas</option>
+                                 </select>
+                             </div>
+                         </div>
+                       <div class="form-group">
+                         <label class="col-lg-4 control-label">Remarques</label>
+                         <div class="col-lg-8">
+                           <textarea class="form-control" rows="3" placeholder="" name="remarque"></textarea>
+                         </div>
+                       </div>
                        <hr />
                        <div class="form-group">
                          <div class="col-lg-offset-1 col-lg-9">
@@ -176,7 +166,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
                   <div class="widget-foot">
                     <!-- Footer goes here -->
                   </div>
-              </div>  
+              </div>
 
             </div>
 
@@ -189,7 +179,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 
     </div>
 
-   <!-- Mainbar ends -->	    	
+   <!-- Mainbar ends -->
    <div class="clearfix"></div>
 
 </div>

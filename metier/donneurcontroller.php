@@ -59,6 +59,41 @@ class DonneurController{
 
     public function getNbreDonneurByGroup($group){
         return $this->donneurDao->getNbreDonneurByGroup($group);
+	}
+    public function getDonneurByCodeAd($id){
+        return $this->donneurDao->getDonneurByCodeAd($id);
+    }
+
+    public function getAllDonneurWithCriter($critere){
+        return $this->donneurDao->getAllDonneurWithCriter($critere);
+
+    }
+    public function getAllDonneurHommeByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurHommeByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurFemmeByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurFemmeByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupOnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupOnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupAnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupAnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupBnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupBnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupABnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupABnegByCollecte($idCollecte);
+
+    }
+    public function getNbreAllDonneurByCollecte($idCollecte){
+        return $this->donneurDao->getNbreAllDonneurByCollecte($idCollecte);
     }
 }
 ?>

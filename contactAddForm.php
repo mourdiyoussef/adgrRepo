@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['fonction']) and !empty($_POST['mail'])){
   include_once("modeles/contact.php");
   include_once("dao/connectiondb.php");

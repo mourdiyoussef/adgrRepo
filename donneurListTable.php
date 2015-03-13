@@ -1,16 +1,26 @@
 <?php
+include_once("includes/testSession.php");
 include_once("modeles/donneur.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");
 include_once("dao/donneurdao.php");
 include_once("metier/donneurcontroller.php");
 
+/* ----------------- Supprimer donneur -------------------- */
 if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
     if($_GET['action']=='supp'){
         $dctrl = new DonneurController();
         $dctrl->deleteDonneur($_GET['idDonneur']);
         header("location:donneurListTable.php");
     }
+}
+
+/* ----------------Recherche rapide ----------------------- */
+$ctrl = new DonneurController();
+if(!empty($_POST['recherche'])){
+    $list = $ctrl->getAllDonneurWithCriter($_POST['recherche']);
+}else{
+    $list = $ctrl->getAllDonneur();
 }
 
 ?>
@@ -113,8 +123,6 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
                                     </thead>
                                     <tbody>
                                             <?php
-                                                $ctrl = new DonneurController();
-                                                $list = $ctrl->getAllDonneur();
                                                 foreach($list as $d){
                                                     echo " <tr>";
                                                     echo "<td>".$d->getCodeAd()."</td>";
@@ -129,7 +137,8 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
                                                     echo "<td>
                                                                 <a href='?action=supp&idDonneur=".$d->getIdDonneur()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
                                                                 <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
-                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'>Détails</a>
+                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'>Détails</a> |
+                                                                <a href='donAddForm.php?idDonneur=".$d->getIdDonneur()."'>+ don</a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }
@@ -156,7 +165,6 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
                             </div>
 
                         </div>
-
 
                     </div>
 

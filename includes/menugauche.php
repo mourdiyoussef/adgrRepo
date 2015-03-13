@@ -42,11 +42,36 @@
                 <li><a href="contactListTable.php">Liste des contacts</a></li>
             </ul>
         </li>
-        <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Utilisateurs  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
+
+        <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Notifications <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
             <ul>
-                <li><a href="userAddForm.php">Nouvel utilisateur</a></li>
-                <li><a href="userListTable.php">Liste des utilisateurs</a></li>
+                <li><a href="notificationAddForm.php">Nouvelle notification</a></li>
+                <li><a href="userListTable.php">Liste des notifications</a></li>
             </ul>
         </li>
+        <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Dépenses  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
+            <ul>
+                <li><a href="categorieAddForm.php">Nouvelle catégorie</a></li>
+                <li><a href="categorieListTable.php">Liste des catégories</a></li>
+                <li><a href="depenseAddForm.php">Nouvelle dépense</a></li>
+                <li><a href="depenseListTable.php">Liste des dépenses</a></li>
+                <li><a href="statistique.php">Statistiques</a></li>
+            </ul>
+        </li>
+        <!-- seulement pour les admins --------------------------------->
+        <?php if($_SESSION['role']=="admin") {
+            ?>
+            <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Utilisateurs <span class="pull-right"><i
+                            class="icon-chevron-right"></i></span></a>
+                <ul>
+                    <li><a href="userAddForm.php">Nouvel utilisateur</a></li>
+                    <li><a href="userListTable.php">Liste des utilisateurs</a></li>
+                </ul>
+            </li>
+
+
+        <?php
+        }
+        ?>
     </ul>
 </div>

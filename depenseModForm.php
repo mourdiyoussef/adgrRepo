@@ -1,25 +1,55 @@
 <?php
 session_start();
-if(!empty($_GET['idContact'])){
-  include_once("modeles/contact.php");
+
+////
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+///
+include_once("modeles/collecte.php");
+include_once("modeles/notification.php");
+include_once("modeles/donneur.php");
+include_once("modeles/user.php");
+include_once("utils/switchDate.php");
+include_once("dao/connectiondb.php");
+include_once("dao/collectedao.php");
+include_once("dao/donneurdao.php");
+include_once("dao/userdao.php");
+include_once("dao/notificationdao.php");
+include_once("metier/collectecontroller.php");
+include_once("metier/notificationcontroller.php");
+include_once("metier/donneurcontroller.php");
+include_once("modeles/collecte.php");
+include_once("modeles/categorie.php");
+include_once("modeles/donneur.php");
+include_once("dao/connectiondb.php");
+include_once("dao/collectedao.php");
+include_once("dao/donneurdao.php");
+include_once("dao/userdao.php");
+include_once("dao/categoriedao.php");
+include_once("metier/collectecontroller.php");
+include_once("metier/categoriecontroller.php");
+include_once("metier/donneurcontroller.php");
+if(!empty($_GET['idDepense'])){
+  include_once("modeles/depense.php");
   include_once("dao/connectiondb.php");
-  include_once("dao/contactdao.php");
-  include_once("metier/contactcontroller.php");
-  $contactCtrl = new ContactController();
-  $contact = $contactCtrl->getContactById($_GET['idContact']);
+  include_once("dao/depensedao.php");
+  include_once("metier/depensecontroller.php");
+  $depenseCtrl = new DepenseController();
+  $depense = $depenseCtrl->getDepenseById($_GET['idDepense']);
 }
 
-if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) and !empty($_POST['fonction'])){
+if(!empty($_POST['montant'])){
   echo "<script>alert('Ok');</script>";
-  include_once("modeles/contact.php");
+  include_once("modeles/depense.php");
   include_once("dao/connectiondb.php");
-  include_once("dao/contactdao.php");
-  include_once("metier/contactcontroller.php");
+  include_once("dao/depensedao.php");
+  include_once("metier/depensecontroller.php");
 
-  $contactCtrl = new ContactController();
-  if($contactCtrl->editContact($_POST['nom'],$_POST['prenom'],$_POST['adresse'],$_POST['fonction'],$_POST['mail'],
-      $_POST['tel'],$_POST['type'],$_POST['remarque'],$_POST['id'])){
-    header("location:contactListTable.php");
+  $depenseCtrl = new DepenseController();
+
+  if($depenseCtrl->editDepense($_POST['idcol'],$_POST['montant'],$_POST['remarque'],$_POST['idcategorie'],$_POST['id'])){
+    header("location:depenseListTable.php");
   }
 }
 ?>
@@ -29,7 +59,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Modification de contact</title>
+  <title>Modification de dépense</title>
 
   <?php include_once('includes/scripts.php'); ?>
   <script type="text/javascript">
@@ -49,37 +79,17 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
           //form validation rules
           $("#register-form").validate({
             rules: {
-              nom: "required",
-              prenom: "required",
-              adresse: "required",
-              fonction: "required",
-              mail:  {
-                required: true,
-                email: true
-              },
 
-              tel: {
+              montant: {
                 required: true,
-                digits: true,
-                maxlength: 10,
-                minlength:10
+                digits: true
               }
 
             },
             messages: {
-              nom: "Entrez le nom",
-              prenom: "Entrez le prénom",
-              adresse: "Entrez l'adresse",
-              fonction: "Entrez la fonction",
-              mail:  {
-                required: "Entrez l'email",
-                mail: "Entrez une adresse mail valide"
-              },
-              tel:{
-                required: "Entrez le numero de téléphone",
-                digits: "N'entrez que des chiffres ",
-                minlength: "Le numero de téléphone doit contenir 10 chiffres ",
-                maxlength: "Le numero de téléphone ne doit contenir que 10 chiffres "
+              montant:{
+                required: "Entrez le montant",
+                digits: "N'entrez que des chiffres "
               }
             },
             submitHandler: function(form) {
@@ -131,7 +141,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
 	    <!-- Page heading -->
 	    <div class="page-head">
         <!-- Page heading -->
-	      <h2 class="pull-left">Modification de  <?php echo $contact->getNom()." ".$contact->getPrenom(); ?></h2>
+	      <h2 class="pull-left"></h2>
         <!-- Breadcrumb -->
         <div class="bread-crumb pull-right">
           <a href="index.html"><i class="icon-home"></i> Home</a> 
@@ -158,7 +168,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
               <div class="widget wgreen">
                 
                 <div class="widget-head">
-                  <div class="pull-left"> <?php echo "Code d'adhésion : ".$contact->getIdContact(); ?></div>
+                  <div class="pull-left"></div>
                   <div class="widget-icons pull-right">
                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a> 
                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
@@ -175,64 +185,55 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
                     <!-- Form starts.-->
                     <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form" >
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">Nom</label>
+                        <label class="col-lg-4 control-label">Collecte du</label>
                         <div class="col-lg-8">
-                          <input type="text" class="form-control" placeholder="" name="nom" value="<?php echo $contact->getNom();?>" >
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-lg-4 control-label">Prénom</label>
-                        <div class="col-lg-8">
-                          <input type="text" class="form-control" placeholder="" name="prenom" value="<?php echo $contact->getPrenom();?>">
-                        </div>
-                      </div>
 
-
-                      <div class="form-group">
-                        <label class="col-lg-4 control-label">Type</label>
-                        <div class="col-lg-8">
-                          <select class="form-control" name="type">
-                            <option>Bien-faiteur</option>
-                            <option>Bénévole</option>
+                          <select class="form-control" name="idcol">
+                            <?php
+                            $collecteCtrl = new CollecteController();
+                            $listCollecte = $collecteCtrl->getAllCollecte();
+                            foreach($listCollecte as $c){
+                              if($depense->getCollecte()==$c->getIdCollecte())
+                                  echo "<option value=".$c->getIdCollecte()." selected>".$c->getDateCollecte()."</option>";
+                              else
+                                echo "<option value=".$c->getIdCollecte().">".$c->getDateCollecte()."</option>";
+                            }
+                            ?>
                           </select>
                         </div>
                       </div>
-
-
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">Adresse</label>
+                        <label class="col-lg-4 control-label">Catégorie</label>
                         <div class="col-lg-8">
-                          <textarea class="form-control" rows="3" placeholder="" name="adresse"><?php echo $contact->getAdresse();?></textarea>
+
+                          <select class="form-control" name="idcategorie">
+                            <?php
+                            $categorieCtrl = new CategorieController();
+                            $listCategorie = $categorieCtrl->getAllCategorie();
+                            foreach($listCategorie as $c){
+                              if($depense->getCategorie()==$c->getIdcategorieDepense())
+                              echo "<option value=".$c->getIdcategorieDepense()." selected>".$c->getCategory()."</option>";
+                              else
+                                echo "<option value=".$c->getIdcategorieDepense().">".$c->getCategory()."</option>";
+                            }
+                            ?>
+                          </select>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="col-lg-4 control-label">Fonction</label>
+                        <label class="col-lg-4 control-label">Montant</label>
                         <div class="col-lg-8">
-                          <input type="text" class="form-control" placeholder="" name="fonction" value="<?php echo $contact->getFonction();?>">
+                          <input type="text" class="form-control" placeholder="" name="montant" value="<?php echo $depense->getMontant();?>" >
                         </div>
                       </div>
-
-                      <div class="form-group">
-                        <label class="col-lg-4 control-label">E-mail</label>
-                        <div class="col-lg-8">
-                          <input type="text" class="form-control" placeholder="" name="mail" value="<?php echo $contact->getMail();?>">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-lg-4 control-label">Telephone</label>
-                        <div class="col-lg-8">
-                          <input type="text" class="form-control" placeholder="" name="tel" value="<?php echo $contact->getTel();?>">
-                        </div>
-                      </div>
-
                       <div class="form-group">
                         <label class="col-lg-4 control-label">Observations</label>
                         <div class="col-lg-8">
-                          <textarea class="form-control" rows="3" placeholder="" name="remarque"><?php echo $contact->getRemarques();?></textarea>
+                          <textarea class="form-control" rows="3" placeholder="" name="remarque"><?php echo $depense->getRemarque();?></textarea>
                         </div>
                       </div>
 
-                      <input type="hidden" name="id" value="<?php echo $contact->getIdContact();?>">
+                      <input type="hidden" name="id" value="<?php echo $depense->getIdDepense();?>">
 
                       <hr />
                       <div class="form-group">
