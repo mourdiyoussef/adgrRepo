@@ -27,6 +27,7 @@ class Donneur {
     private $mdp;
     private $sexe;
     private $etatCArte;
+    private $prochainDon;
     private $remarques;
 
     function __construct($idDonneur ="", $nom="", $prenom="", $codeAd="", $dateNaissance="", $dernierDon="", $adresse="", $fonction="", $etatMatrimonial="",
@@ -407,6 +408,22 @@ class Donneur {
     public function setRemarques($remarques)
     {
         $this->remarques = $remarques;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProchainDon()
+    {
+        return $this->prochainDon;
+    }
+
+    /**
+     * @param mixed $prochainDon
+     */
+    public function setProchainDon($prochainDon)
+    {
+        $this->prochainDon = $prochainDon;
     }
 
     /*

@@ -11,7 +11,9 @@ include_once('metier\donneurcontroller.php');
 
 $dDao = new DonneurDAO();
 
-$t = $dDao->getDonneurByCodeAd("aaaaa");
+    $ctrl = new DonneurController();
+$oneg = $ctrl->getNbreAllDonneurByCollecte(4);
+    echo $oneg;
 
-echo $t->getIdDonneur();
+//echo $t;
 ?>

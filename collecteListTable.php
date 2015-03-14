@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+
 include_once("modeles/collecte.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");
@@ -58,7 +63,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left"><i class="icon-table"></i> Liste des donneurs</h2>
+            <h2 class="pull-left"><i class="icon-table"></i> Liste des collectes</h2>
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
@@ -89,6 +94,7 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                             <div class="widget-head">
                                 <div class="pull-left">Toutes les collectes</div>
                                 <div class="widget-icons pull-right">
+                                    <img src='style/images/print.png'>
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
                                 </div>
@@ -104,7 +110,11 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                                         <th>Date de la collecte</th>
                                         <th>Lieu de la collecte</th>
                                         <th>Type de la collecte</th>
-                                        <th>Remarques</th>
+                                        <th>Nombre de présence</th>
+                                        <th>Total des dons</th>
+                                        <th>Contre indiqués</th>
+                                        <th>Donneurs -</th>
+                                        <th>Donneurs +</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
@@ -118,11 +128,15 @@ if(!empty($_GET['action']) and !empty($_GET['idCollecte'])){
                                                     echo "<td>".$d->getDateCollecte()."</td>";
                                                     echo "<td>".$d->getLieuCollecte()."</td>";
                                                     echo "<td>".$d->getTypeCollecte()."</td>";
-                                                    echo "<td>".$d->getRemarques()."</td>";
+                                                    echo "<td>".$d->getNbrPresence()."</td>";
+                                                    echo "<td>".$d->getNbrDon()."</td>";
+                                                    echo "<td>".$d->getNombreContreIndique()."</td>";
+                                                    echo "<td>".$ctrl->getCountParticipant($d->getIdCollecte())."</td>";
+                                                    echo "<td>".$d->getNombrePositif($ctrl->getCountParticipant($d->getIdCollecte()))."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idCollecte=".$d->getIdCollecte()."'>Supprimer</a> |
-                                                                <a href='collecteModForm.php?idCollecte=".$d->getIdCollecte()."'>Modifier</a> |
-                                                                <a href='collecteFiche.php?idCollecte=".$d->getIdCollecte()."'>Détails</a>
+    <a href='?action=supp&idCollecte=".$d->getIdCollecte()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='collecteModForm.php?idCollecte=".$d->getIdCollecte()."'><img src='style/images/edit.png'></a>
+                                                                <a href='collecteFiche.php?idCollecte=".$d->getIdCollecte()."'><img src='style/images/detail.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

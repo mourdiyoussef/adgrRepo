@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
 if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty($_POST['typeCollecte']) and !empty($_POST['remarque'])){
   include_once("modeles/collecte.php");
   include_once("utils/switchDate.php");
@@ -8,9 +12,9 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
   include_once("metier/collectecontroller.php");
   $collecteCtrl = new CollecteController();
   if($collecteCtrl->ajouterCollecte($_POST['dateCollecte'],$_POST['lieuCollecte'],$_POST['typeCollecte'],$_POST['remarque'])){
-    echo "<h1>OKKKKKK</h1>";
+
   }else{
-    echo "<h1>oIo</h1>";
+
   }
 
 }
@@ -24,7 +28,52 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
   <title>Nouvel adherant</title>
 
   <?php include_once('includes/scripts.php'); ?>
+  <script type="text/javascript">
+    /**
+     * Basic jQuery Validation Form Demo Code
+     * Copyright Sam Deering 2012
+     * Licence: http://www.jquery4u.com/license/
+     */
+    (function($,W,D)
+    {
+      var JQUERY4U = {};
 
+      JQUERY4U.UTIL =
+      {
+        setupFormValidation: function()
+        {
+          //form validation rules
+          $("#register-form").validate({
+            rules: {
+
+              dateCollecte: {
+                required: true,
+                date: true
+              },
+              lieuCollecte: "required"
+
+            },
+            messages: {
+              dateCollecte: {
+                required: "Entrez la date de la collecte",
+                date: "Entrez une date valide"
+              },
+              lieuCollecte: "Entrez le lieu de la collecte"
+            },
+            submitHandler: function(form) {
+              form.submit();
+            }
+          });
+        }
+      }
+
+      //when the dom has loaded setup form validation rules
+      $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+      });
+
+    })(jQuery, window, document);
+  </script>
 </head>
 
 <body>
@@ -101,7 +150,7 @@ if(!empty($_POST['dateCollecte']) and !empty($_POST['lieuCollecte'])  and !empty
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                     <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form" enctype="multipart/form-data">
 
                        <div class="form-group">
                          <label class="col-lg-4 control-label">Date de la collecte</label>

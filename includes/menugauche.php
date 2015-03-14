@@ -27,6 +27,7 @@
             <ul>
                 <li><a href="donneurAddForm.php">Nouvel adérant</a></li>
                 <li><a href="donneurListTable.php">Liste des adérants</a></li>
+                <li><a href="donneurAptContactList.php">Liste des adérants apts</a></li>
                 <li><a href="widgets3.html">Recherche avancée</a></li>
             </ul>
         </li>
@@ -49,6 +50,15 @@
                 <li><a href="userListTable.php">Liste des notifications</a></li>
             </ul>
         </li>
+        <li class="has_sub"><a href="#"><i class="icon-file-alt"></i> Dépenses  <span class="pull-right"><i class="icon-chevron-right"></i></span></a>
+            <ul>
+                <li><a href="categorieAddForm.php">Nouvelle catégorie</a></li>
+                <li><a href="categorieListTable.php">Liste des catégories</a></li>
+                <li><a href="depenseAddForm.php">Nouvelle dépense</a></li>
+                <li><a href="depenseListTable.php">Liste des dépenses</a></li>
+                <li><a href="statistique.php">Statistiques</a></li>
+            </ul>
+        </li>
         <!-- seulement pour les admins --------------------------------->
         <?php if($_SESSION['role']=="admin") {
             ?>
@@ -59,6 +69,7 @@
                     <li><a href="userListTable.php">Liste des utilisateurs</a></li>
                 </ul>
             </li>
+
 
         <?php
         }

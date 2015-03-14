@@ -35,11 +35,18 @@ class CollecteController{
         return $this->collecteDao->getCollecteById($id);
     }
 
-    public function editCollecte($dateCollecte, $lieuCollecte, $type, $remarque, $oldCollecteId){
+    public function editCollecte($dateCollecte, $lieuCollecte, $type, $remarque, $oldCollecteId, $presence, $totalDon){
         $dateUtil = new switchDate();
         $dateCollecte = $dateUtil->formToDB($dateCollecte);
         $collecte = new Collecte("", $dateCollecte, $lieuCollecte, $type, $remarque);
+        $collecte->setNbrDon($totalDon);
+        $collecte->setNbrPresence($presence);
         return $this->collecteDao->editCollecte($collecte, $oldCollecteId);
     }
+
+    public function getCountParticipant($id){
+        return $this->collecteDao->getCountParticipant($id);
+    }
+
 }
 ?>

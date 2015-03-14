@@ -49,3 +49,10 @@
 <link rel="stylesheet" media="screen" type="text/css" title="Design" href="style/design_calendrier.css" />
 
 
+<!-- jQuery Validation -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+
+<!-- <link rel="stylesheet" href="style/bootstrap-validation.css"> -->
+

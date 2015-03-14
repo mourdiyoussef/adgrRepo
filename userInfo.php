@@ -1,5 +1,10 @@
 <?php
 include_once("includes/testSession.php");
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+
 include_once("modeles/user.php");
 include_once("dao/connectiondb.php");
 include_once("dao/userdao.php");

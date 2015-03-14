@@ -18,9 +18,9 @@ if(!empty($_GET['action']) and !empty($_GET['idDonneur'])){
 /* ----------------Recherche rapide ----------------------- */
 $ctrl = new DonneurController();
 if(!empty($_POST['recherche'])){
-    $list = $ctrl->getAllDonneurWithCriter($_POST['recherche']);
+    $list = $ctrl->getAllNegativeDonneurWithCriter($_POST['recherche']);
 }else{
-    $list = $ctrl->getAllDonneur();
+    $list = $ctrl->getAllNegativeDonneur();
 }
 
 ?>
@@ -96,8 +96,9 @@ if(!empty($_POST['recherche'])){
                         <div class="widget">
 
                             <div class="widget-head">
-                                <div class="pull-left">Tous les donneurs</div>
+                                <div class="pull-left">Tous les donneurs ayant un rhésus négatif</div>
                                 <div class="widget-icons pull-right">
+                                    <img src='style/images/print.png'>
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
                                 </div>
@@ -131,14 +132,14 @@ if(!empty($_POST['recherche'])){
                                                     echo "<td>".$d->getCin()."</td>";
                                                     echo "<td>".$d->getGroupeSanguin()."</td>";
                                                     echo "<td>".$d->getDernierDon()."</td>";
-                                                    echo "<td>Prochain don</td>";
+                                                    echo "<td>".$d->getProchainDon()."</td>";
                                                     echo "<td>".$d->getAptPourDon()."</td>";
                                                     echo "<td>".$d->getTel()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."'>Supprimer</a> |
-                                                                <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'>Modifier</a> |
-                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'>Détails</a> |
-                                                                <a href='donAddForm.php?idDonneur=".$d->getIdDonneur()."'>+ don</a>
+                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/edit.png'></a>
+                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/detail.png'></a>
+                                                                <a href='donAddForm.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/plus.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

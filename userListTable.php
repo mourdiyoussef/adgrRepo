@@ -1,5 +1,10 @@
 <?php
 include_once("includes/testSession.php");
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+
 include_once("modeles/user.php");
 include_once("dao/connectiondb.php");
 include_once("dao/userdao.php");
@@ -128,9 +133,9 @@ if(!empty($_GET['action']) and !empty($_GET['idUser'])){
                                                     echo "<td>".$d->getType()."</td>";
                                                     echo "<td>".$d->getLogin()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idUser=".$d->getIdUser()."'>Supprimer</a> |
-                                                                <a href='userModForm.php?idUser=".$d->getIdUser()."'>Modifier</a> |
-                                                                <a href='?action=init&idUser=".$d->getIdUser()."'>Rénit. Mot de passe</a>
+                                                                <a href='?action=supp&idUser=".$d->getIdUser()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='userModForm.php?idUser=".$d->getIdUser()."'><img src='style/images/edit.png'></a>
+                                                                <a href='?action=init&idUser=".$d->getIdUser()."'><img src='style/images/security.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

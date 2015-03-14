@@ -26,7 +26,9 @@ class CollecteDAO {
                 '".$d->getDateCollecte()."',
                 '".$d->getLieuCollecte()."',
                 '".$d->getTypeCollecte()."',
-                '".$d->getRemarques()."')";
+                '".$d->getRemarques()."',
+                '',
+                '')";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
         return $v;
@@ -45,6 +47,8 @@ class CollecteDAO {
             $d->setLieuCollecte($obj->lieuCollecte);
             $d->setDateCollecte($dateU->DBToForm($obj->dateCollecte));
             $d->setTypeCollecte($obj->typeCollecte);
+            $d->setNbrDon($obj->totalDon);
+            $d->setNbrPresence($obj->totalPresence);
             $tab[] = $d;
         }
         $this->objConnexion->close($bdd);
@@ -71,6 +75,9 @@ class CollecteDAO {
         $d->setLieuCollecte($obj->lieuCollecte);
         $d->setDateCollecte($dateU->DBToForm($obj->dateCollecte));
         $d->setTypeCollecte($obj->typeCollecte);
+        $d->setNbrDon($obj->totalDon);
+        $d->setNbrPresence($obj->totalPresence);
+
         $this->objConnexion->close($bdd);
         return $d;
     }
@@ -79,11 +86,33 @@ class CollecteDAO {
         $req = "update collecte set dateCollecte='".$newCollecte->getDateCollecte()."',
                                     lieuCollecte='".$newCollecte->getLieuCollecte()."',
                                     typeCollecte='".$newCollecte->getTypeCollecte()."',
-                                    remarqueCollecte='".$newCollecte->getRemarques()."'
+                                    remarqueCollecte='".$newCollecte->getRemarques()."',
+                                    totalDon='".$newCollecte->getNbrDon()."',
+                                    totalPresence='".$newCollecte->getNbrPresence()."'
                               WHERE idcollecte=$oldCollecteId";
+        echo $req;
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         $this->objConnexion->close($bdd);
         return $v;
     }
+
+
+    /*
+     * Retourne le nombre de don pour une collecte (Négative)
+     * dont l'id est passé comme paramètre
+     *
+     * */
+
+    public function getCountParticipant($id){
+        $bdd = $this->objConnexion->connect();
+        $req = "select count(*) as nbrParticipant from don
+                        WHERE idcollecte=$id";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrParticipant;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+
 }
 ?>

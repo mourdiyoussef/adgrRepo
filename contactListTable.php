@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+
 include_once("modeles/contact.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");
@@ -128,8 +133,8 @@ if(!empty($_GET['action']) and !empty($_GET['idContact'])){
                                                     echo "<td>".$d->getAdresse()."</td>";
                                                     echo "<td>".$d->getRemarques()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idContact=".$d->getIdContact()."'>Supprimer</a> |
-                                                                <a href='contactModForm.php?idContact=".$d->getIdContact()."'>Modifier</a>
+                                                                <a href='?action=supp&idContact=".$d->getIdContact()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='contactModForm.php?idContact=".$d->getIdContact()."'><img src='style/images/edit.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

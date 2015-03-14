@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+///
 include_once("modeles/collecte.php");
 include_once("utils/switchDate.php");
 include_once("dao/connectiondb.php");

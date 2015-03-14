@@ -28,9 +28,9 @@ class DonneurController{
         return $this->donneurDao->addDonneur($donneur);
     }
 
-    public function getAllDonneur()
+    public function getAllNegativeDonneur()
     {
-        return $this->donneurDao->getAllDonneur();
+        return $this->donneurDao->getAllNegativeDonneur();
     }
 
     public function deleteDonneur($id)
@@ -56,12 +56,47 @@ class DonneurController{
             $sexe, $etatCArte, $remarques);
         return $this->donneurDao->editDonneur($donneur, $oldDonneurId);
     }
+
+    public function getNbreDonneurByGroup($group){
+        return $this->donneurDao->getNbreDonneurByGroup($group);
+	}
     public function getDonneurByCodeAd($id){
         return $this->donneurDao->getDonneurByCodeAd($id);
     }
 
-    public function getAllDonneurWithCriter($critere){
-        return $this->donneurDao->getAllDonneurWithCriter($critere);
+    public function getAllNegativeDonneurWithCriter($critere){
+        return  $this->donneurDao->getAllNegativeDonneurWithCriter($critere);
+    }
+    public function getAllDonneurHommeByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurHommeByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurFemmeByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurFemmeByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupOnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupOnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupAnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupAnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupBnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupBnegByCollecte($idCollecte);
+
+    }
+    public function getAllDonneurGroupABnegByCollecte($idCollecte){
+        return $this->donneurDao->getAllDonneurGroupABnegByCollecte($idCollecte);
+
+    }
+    public function getNbreAllDonneurByCollecte($idCollecte){
+        return $this->donneurDao->getNbreAllDonneurByCollecte($idCollecte);
+    }
+
+    public function getAllNegativeDonneurApt(){
+        return $this->donneurDao->getAllNegativeDonneurApt();
     }
 }
 ?>

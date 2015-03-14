@@ -670,7 +670,7 @@ header .header-data .hdata p, header .header-data .hdata a, header .header-data 
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
-	margin-top: 3px;
+	margin-top: 12px;
 	color: #666;
 }
 
@@ -1467,7 +1467,7 @@ header .header-data .hdata em{
 
 /* Chart */
 
-#bar-chart,#bar-chart-black,#curve-chart,#live-chart,#pie-chart,#pie-chart2,#pie-chart3{
+#bar-chart,#bar-chart-black,#curve-chart,#live-chart,#pie-chart,#pie-chart2,#pie-chart3,#pie-chartGS{
 	height: 250px;
 	max-width: 100%;
 }

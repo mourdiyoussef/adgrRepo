@@ -50,11 +50,11 @@ class DonneurDAO {
         return $v;
     }
 
-    public function getAllDonneur(){
+    public function getAllNegativeDonneur(){
         $dateU = new switchDate();
         $tab = array();
         $bdd = $this->objConnexion->connect();
-        $req = "select * from donneur";
+        $req = "select * from donneur where groupeSonguin='A-' OR groupeSonguin='B-' OR groupeSonguin='AB-' OR groupeSonguin='O-'";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         while($obj = mysqli_fetch_object($v)){
             $d = new Donneur();
@@ -63,6 +63,10 @@ class DonneurDAO {
             $d->setDateInscription($dateU->DBToForm($obj->dateInscription));
             $d->setDateNaissance($dateU->DBToForm($obj->dateNaissance));
             $d->setDernierDon($dateU->DBToForm($obj->dernierDon));
+
+            $nextDon = date("Y-m-d", strtotime("+3 month", strtotime($obj->dernierDon)));
+            $d->setProchainDon($dateU->DBToForm($nextDon));
+
             $d->setCodeAd($obj->codeAd);
             $d->setCin($obj->cin);
             $d->setAdresse($obj->adresse);
@@ -151,6 +155,14 @@ class DonneurDAO {
         return $v;
     }
 
+    public function getNbreDonneurByGroup($group){
+        $bdd = $this->objConnexion->connect();
+        $req = "select * from donneur where groupeSonguin='$group'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $nbr = mysqli_num_rows($v);
+        $this->objConnexion->close($bdd);
+        return $nbr;
+	}
     public function getDonneurByCodeAd($id){
         $dateU = new switchDate();
         $bdd = $this->objConnexion->connect();
@@ -182,11 +194,11 @@ class DonneurDAO {
         return $d;
     }
 
-    public function getAllDonneurWithCriter($critere){
+    public function getAllNegativeDonneurWithCriter($critere){
         $dateU = new switchDate();
         $tab = array();
         $bdd = $this->objConnexion->connect();
-        $req = "select * from donneur WHERE nom LIKE '%$critere%' OR prenom LIKE '%$critere%' OR cin LIKE '%$critere%' OR codeAd LIKE '%$critere%'";
+        $req = "select * from donneur WHERE (nom LIKE '%$critere%' OR prenom LIKE '%$critere%' OR cin LIKE '%$critere%' OR codeAd LIKE '%$critere%') AND (groupeSonguin='A-' OR groupeSonguin='B-' OR groupeSonguin='AB-' OR groupeSonguin='O-')";
         $v = mysqli_query($bdd,$req) or die(mysql_error());
         while($obj = mysqli_fetch_object($v)){
             $d = new Donneur();
@@ -195,6 +207,10 @@ class DonneurDAO {
             $d->setDateInscription($dateU->DBToForm($obj->dateInscription));
             $d->setDateNaissance($dateU->DBToForm($obj->dateNaissance));
             $d->setDernierDon($dateU->DBToForm($obj->dernierDon));
+
+            $nextDon = date("Y-m-d", strtotime("+3 month", strtotime($obj->dernierDon)));
+            $d->setProchainDon($dateU->DBToForm($nextDon));
+
             $d->setCodeAd($obj->codeAd);
             $d->setCin($obj->cin);
             $d->setAdresse($obj->adresse);
@@ -210,10 +226,132 @@ class DonneurDAO {
             $d->setEtatCArte($obj->etatCarte);
             $d->setRemarques($obj->remarques);
             $d->setIdDonneur($obj->iddonneur);
+
             $tab[] = $d;
         }
         $this->objConnexion->close($bdd);
         return $tab;
+
+    }
+    public function getAllDonneurHommeByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrHomme FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.sexe='homme'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrHomme;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getAllDonneurFemmeByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrFemme FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.sexe='femme'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrFemme;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getAllDonneurGroupOnegByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrOneg FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.groupeSonguin='O-'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrOneg;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getAllDonneurGroupAnegByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrAneg FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.groupeSonguin='A-'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrAneg;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getAllDonneurGroupBnegByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrBneg FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.groupeSonguin='B-'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrBneg;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getAllDonneurGroupABnegByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrABneg FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte
+                                                          and donneur.groupeSonguin='AB-'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrABneg;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+    public function getNbreAllDonneurByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrDonneur FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                          AND don.idcollecte = $idCollecte";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrDonneur;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+
+    /*
+     * Retourne les donneurs négatifs ayant la possibilité de donner de leur sang
+     * 75 Jours
+     * */
+    public function getAllNegativeDonneurApt(){
+        $dateU = new switchDate();
+        $tab = array();
+        $bdd = $this->objConnexion->connect();
+        $req = "select * from donneur WHERE DATEDIFF(NOW(),dernierDon) >= 75 AND aptPourDon='Oui'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        while($obj = mysqli_fetch_object($v)){
+            $d = new Donneur();
+            $d->setNom($obj->nom);
+            $d->setPrenom($obj->prenom);
+            $d->setDateInscription($dateU->DBToForm($obj->dateInscription));
+            $d->setDateNaissance($dateU->DBToForm($obj->dateNaissance));
+            $d->setDernierDon($dateU->DBToForm($obj->dernierDon));
+
+            $nextDon = date("Y-m-d", strtotime("+3 month", strtotime($obj->dernierDon)));
+            $d->setProchainDon($dateU->DBToForm($nextDon));
+
+            $d->setCodeAd($obj->codeAd);
+            $d->setCin($obj->cin);
+            $d->setAdresse($obj->adresse);
+            $d->setFonction($obj->fonction);
+            $d->setEtatMatrimonial($obj->etatMatrimonial);
+            $d->setNombreEnfant($obj->nbrEnfant);
+            $d->setGroupeSanguin($obj->groupeSonguin);
+            $d->setMail($obj->mail);
+            $d->setTel($obj->tel);
+            $d->setPhoto($obj->photo);
+            $d->setAptPourDon($obj->aptPourDon);
+            $d->setSexe($obj->sexe);
+            $d->setEtatCArte($obj->etatCarte);
+            $d->setRemarques($obj->remarques);
+            $d->setIdDonneur($obj->iddonneur);
+
+            $tab[] = $d;
+        }
+        $this->objConnexion->close($bdd);
+        return $tab;
+
     }
 }
 ?>

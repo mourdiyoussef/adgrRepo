@@ -1,5 +1,10 @@
 <?php
 include_once("includes/testSession.php");
+
+include_once("modeles/donneur.php");
+include_once("dao/donneurdao.php");
+include_once("metier/donneurcontroller.php");
+
 if(!empty($_GET['idDonneur'])){
   include_once("modeles/donneur.php");
   include_once("utils/switchDate.php");
@@ -35,6 +40,100 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
   <title>Nouvel adherant</title>
 
   <?php include_once('includes/scripts.php'); ?>
+  <script type="text/javascript">
+    /**
+     * Basic jQuery Validation Form Demo Code
+     * Copyright Sam Deering 2012
+     * Licence: http://www.jquery4u.com/license/
+     */
+    (function($,W,D)
+    {
+      var JQUERY4U = {};
+
+      JQUERY4U.UTIL =
+      {
+        setupFormValidation: function()
+        {
+          //form validation rules
+          $("#register-form").validate({
+            rules: {
+              nom: "required",
+              prenom: "required",
+              cin: "required",
+              dateNai: {
+                required: true,
+                date: true
+              },
+              codeAd: "required",
+              adresse: "required",
+              fonction: "required",
+              etatMatri: "required",
+              nbrEnf: {
+                required: true,
+                digits: true
+              },
+              mail:  {
+                required: true,
+                email: true
+              },
+
+              tel: {
+                required: true,
+                digits: true,
+                maxlength: 10,
+                minlength:10
+              },
+              dernierDon: {
+                required: true,
+                date: true
+              }
+
+            },
+            messages: {
+              nom: "Entrez le nom",
+              prenom: "Entrez le prénom",
+              cin: "Entrez la CIN",
+              dateNai: {
+                required: "Entrez la date de naissance de Donneur",
+                date: "Entrez une date valide"
+              },
+              codeAd: "Entrez le code d'adherent",
+              adresse: "Entrez l'adresse",
+              fonction: "Entrez la fonction",
+              etatMatri: "Entrez l'etat matrimonial",
+              nbrEnf:{
+                required: "Entrez le nombre d'enfant",
+                digits: "N'entrez que des nombres "
+              },
+              mail:  {
+                required: "Entrez l'email de Donneur",
+                mail: "Entrez une adresse mail valide"
+              },
+              tel:{
+                required: "Entrez le numero de téléphone",
+                digits: "N'entrez que des chiffres ",
+                minlength: "Le numero de téléphone doit contenir 10 chiffres ",
+                maxlength: "Le numero de téléphone ne doit contenir que 10 chiffres "
+              },
+              dernierDon: {
+                required: "Entrez la date de dernier don de Donneur",
+                date: "Entrez une date valide"
+              }
+            },
+            submitHandler: function(form) {
+              form.submit();
+            }
+          });
+        }
+      }
+
+      //when the dom has loaded setup form validation rules
+      $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+      });
+
+    })(jQuery, window, document);
+  </script>
 
 </head>
 
@@ -112,7 +211,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['id']) 
                     <hr />
 
                     <!-- Form starts.-->
-                     <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                     <form class="form-horizontal" role="form" method="post"  novalidate="novalidate" id="register-form"  enctype="multipart/form-data">
 
                                 <div class="form-group">
                                   <label class="col-lg-4 control-label">Nom</label>
