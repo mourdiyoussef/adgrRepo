@@ -56,7 +56,6 @@
                 <li><a href="categorieListTable.php">Liste des catégories</a></li>
                 <li><a href="depenseAddForm.php">Nouvelle dépense</a></li>
                 <li><a href="depenseListTable.php">Liste des dépenses</a></li>
-                <li><a href="statistique.php">Statistiques</a></li>
             </ul>
         </li>
         <!-- seulement pour les admins --------------------------------->

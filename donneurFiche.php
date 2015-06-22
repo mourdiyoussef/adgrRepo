@@ -19,10 +19,6 @@ if(!empty($_GET['idDonneur'])/* and !empty($_GET['action']) and $_GET['action']=
     $collectCtrl = new CollecteController();
 }
 if(!empty($_GET['idDonneur']) and !empty($_GET['idDon']) and !empty($_GET['action']) and $_GET['action']=="supp"){
-   /* $donneurCtrl = new DonneurController();
-    $donneur = $donneurCtrl->getDonneurById($_GET['idDonneur']);
-    $listDon = $donCtrl->getAllDonByUserId($donneur->getIdDonneur());
-    $collectCtrl = new CollecteController();*/
     $donCtrl = new DonController();
     $donCtrl->deleteDon($_GET['idDon']);
     header("location:?idDonneur=".$_GET['idDonneur']."");
@@ -120,30 +116,38 @@ if(!empty($_GET['idDonneur']) and !empty($_GET['idDon']) and !empty($_GET['actio
 
                                         <div class="col-md-4">
                                             <h2>Information personnel</h2>
-                                            <h4>Nom : <?php echo $donneur->getNom(); ?></h4>
-                                            <h4>Prénom : <?php echo $donneur->getPrenom(); ?></h4>
-                                            <h4>Groupe sanguin : <?php echo $donneur->getGroupeSanguin(); ?></h4>
-                                            <h4>Date d'inscription : <?php echo $donneur->getDateInscription(); ?></h4>
-                                            <h4>CIN : <?php echo $donneur->getCin(); ?></h4>
-                                            <h4>Date du prochain don : <?php echo "Prochain don"; ?></h4>
                                             <hr />
-                                            <h4>Date de naissance : <?php echo $donneur->getDateNaissance(); ?></h4>
-                                            <h4>Sexe : <?php echo $donneur->getSexe(); ?></h4>
-                                            <h4>Fonction : <?php echo $donneur->getFonction(); ?></h4>
-                                            <h4>Adresse : <?php echo $donneur->getAdresse(); ?></h4>
-                                            <h4>Etat matrimonial : <?php echo $donneur->getEtatMatrimonial(); ?></h4>
-                                            <h4>Nombre d'enfant : <?php echo $donneur->getNombreEnfant(); ?></h4>
-                                            <hr />
-                                            <h4>Login du système : <?php echo $donneur->getLogin(); ?></h4>
-                                            <h4>Mail : <?php echo $donneur->getMail(); ?></h4>
-                                            <h4>Téléphone : <?php echo $donneur->getTel(); ?></h4>
-                                            <h4>Carte d'adhésion : <?php echo $donneur->getEtatCArte(); ?></h4>
-                                            <h4>Possibilité de don : <?php echo $donneur->getAptPourDon(); ?></h4>
-                                            <h4>Remarques : <?php echo $donneur->getRemarques(); ?></h4>
+                                            <table>
+                                                <tr><td><h4>Nom</h4>                    </td>         <td>:</td>   <td><h4><?php echo $donneur->getNom(); ?></h4></td></tr>
+                                                <tr><td> <h4>Prénom</h4>                </td>         <td>:</td>   <td><h4><?php echo $donneur->getPrenom(); ?></h4></td></tr>
+                                                <tr><td> <h4>Groupe sanguin</h4>        </td>         <td>:</td>   <td><h4><?php echo $donneur->getGroupeSanguin(); ?></h4></td></tr>
+                                                <tr><td><h4>Date d'inscription</h4>     </td>         <td>:</td>   <td><h4><?php echo $donneur->getDateInscription(); ?></h4></td></tr>
+                                                <tr><td><h4>CIN</h4>                    </td>         <td>:</td>   <td><h4><?php echo $donneur->getCin(); ?></h4></td></tr>
+                                                <tr><td><h4>Date du prochain don</h4>   </td>         <td>:</td>   <td><h4><?php echo $donneur->getProchainDon(); ?></h4></td></tr>
+
+                                                <tr><td><h4>Date de naissance</h4>      </td>         <td>:</td>   <td><h4><?php echo $donneur->getDateNaissance(); ?></h4></td></tr>
+                                                <tr><td> <h4>Sexe</h4>                  </td>         <td>:</td>   <td><h4><?php echo $donneur->getSexe(); ?></h4></td></tr>
+                                                <tr><td> <h4>Fonction</h4>              </td>         <td>:</td>   <td><h4><?php echo $donneur->getFonction(); ?></h4></td></tr>
+                                                <tr><td><h4>Adresse</h4>                </td>         <td>:</td>   <td><h4><?php echo $donneur->getAdresse(); ?></h4></td></tr>
+                                                <tr><td><h4>Etat matrimonial</h4>       </td>         <td>:</td>   <td><h4><?php echo $donneur->getEtatMatrimonial(); ?></h4></td></tr>
+                                                <tr><td><h4>Nombre d'enfant</h4>        </td>         <td>:</td>   <td><h4><?php echo $donneur->getProchainDon(); ?></h4></td></tr>
+
+                                                <tr><td><h4>Login du système</h4>       </td>         <td>:</td>   <td><h4><?php echo $donneur->getLogin(); ?></h4></td></tr>
+                                                <tr><td> <h4>Mail</h4>                  </td>         <td>:</td>   <td><h4><?php echo  $donneur->getMail(); ?></h4></td></tr>
+                                                <tr><td> <h4>Téléphone</h4>             </td>         <td>:</td>   <td><h4><?php echo $donneur->getTel(); ?></h4></td></tr>
+                                                <tr><td><h4>Carte d'adhésion</h4>       </td>         <td>:</td>   <td><h4><?php echo $donneur->getEtatCArte(); ?></h4></td></tr>
+                                                <tr><td><h4>Elligible pour le don</h4>  </td>         <td>:</td>   <td><h4><?php
+                                                                                                                            if ($donneur->getAptPourDon()=="Oui") echo "<span class='label label-success'>".$donneur->getAptPourDon()."</span>"; ?>
+                                                                                                                            if ($donneur->getAptPourDon()=="Non ") echo "<span class='label label-success'>".$donneur->getAptPourDon()."</span>"; ?>
+                                                                                                                   </h4></td></tr>
+                                                <tr><td><h4>Remarques</h4>              </td>         <td>:</td>   <td><h4><?php echo $donneur->getRemarques(); ?></h4></td></tr>
+
+                                            </table>
                                         </div>
 
                                         <div class="col-md-4">
                                             <h2>Liste des dons</h2>
+                                            <hr />
                                             <table class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                 <tr>
@@ -161,8 +165,8 @@ if(!empty($_GET['idDonneur']) and !empty($_GET['idDon']) and !empty($_GET['actio
                                                     echo "<td>".$d->getIdCollecte()."</td>";
                                                     echo "<td>".$d->getIdDonneur()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idDon=".$d->getIdDon()."&idDonneur=".$donneur->getIdDonneur()."'>Supprimer</a> |
-                                                                <a href='donModForm.php?idDon=".$d->getIdDon()."'>Modifier</a>
+                                                                <a href='?action=supp&idDon=".$d->getIdDon()."&idDonneur=".$donneur->getIdDonneur()."'><img src='style/images/delete.png'></a>
+                                                                <a href='donModForm.php?idDon=".$d->getIdDon()."'><img src='style/images/edit.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

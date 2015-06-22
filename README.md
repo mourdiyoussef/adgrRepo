@@ -1,2 +1,0 @@
-# adgrRepo
-ADGR Project

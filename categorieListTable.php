@@ -117,8 +117,8 @@ if(!empty($_GET['action']) and !empty($_GET['idCategorie'])){
                                                     echo "<td>".$d->getIdcategorieDepense()."</td>";
                                                     echo "<td>".$d->getCategory()."</td>";
                                                     echo "<td>
-                                                                <a href='?action=supp&idCategorie=".$d->getIdcategorieDepense()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
-                                                                <a href='categorieModForm.php?idCategorie=".$d->getIdcategorieDepense()."'>Modifier</a>
+                                                                <a href='?action=supp&idCategorie=".$d->getIdcategorieDepense()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='categorieModForm.php?idCategorie=".$d->getIdcategorieDepense()."'><img src='style/images/edit.png'></a>
                                                             </td>";
                                                     echo "</tr>";
                                                 }

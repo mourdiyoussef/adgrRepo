@@ -30,13 +30,6 @@ include_once("dao/connectiondb.php");
 include_once("dao/depensedao.php");
 include_once("metier/depensecontroller.php");
 
-if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
-    if($_GET['action']=='supp'){
-        $dctrl = new DepenseController();
-        $dctrl->deleteDepense($_GET['idDepense']);
-        header("location:depenseListTable.php");
-    }
-}
 
 ?>
 <!DOCTYPE html>
@@ -44,7 +37,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Liste des contacts</title>
+    <title>Fiche de la collecte</title>
 
     <?php include_once('includes/scripts.php'); ?>
 
@@ -82,7 +75,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left"><i class="icon-table"></i> Répértoire</h2>
+            <h2 class="pull-left"><i class="icon-table"></i> Fiche collecte</h2>
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
@@ -107,41 +100,6 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
                 <div class="row">
 
                     <div class="col-md-12">
-                        <div class="widget">
-                            <div class="widget-head">
-                                <div class="pull-left">Liste des dépenses</div>
-                                <div class="widget-icons pull-right">
-                                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
-                                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="widget-content">
-                                <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form">
-                                    <div class="form-group">
-                                        <label class="col-lg-4 control-label">Collecte du</label>
-                                        <div class="col-lg-8">
-                                            <table><tr><td width="250px">
-                                            <select class="form-control" name="idCollecte">
-                                                <?php
-                                                $collecteCtrl = new CollecteController();
-                                                $listCollecte = $collecteCtrl->getAllCollecte();
-                                                foreach($listCollecte as $c){
-                                                    echo "<option value=".$c->getIdCollecte().">".$c->getDateCollecte()."</option>";
-                                                }
-                                                ?>
-                                            </select></td><td><button type="submit" class="btn btn-primary">Valider</button></td></tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-1 col-lg-9">
-
-                                        </div>
-                                    </div>
-                                    </form>
-                            </div>
-                        </div>
 
                         <div class="widget">
 
@@ -158,7 +116,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
 
                                 <div class="padd statement">
                                     <?php
-                                    if(isset($_POST['idCollecte'])) {
+                                    if(isset($_GET['idCollecte'])) {
                                     ?>
                                     <div class="row">
 
@@ -166,7 +124,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
                                             <div class="well">
                                                 <?php
                                                 $ctrls = new DonneurController();
-                                                $nbre = $ctrls->getNbreAllDonneurByCollecte($_POST['idCollecte']);
+                                                $nbre = $ctrls->getNbreAllDonneurByCollecte($_GET['idCollecte']);
                                                 ?>
                                                 <h2><?php echo $nbre; ?></h2>
                                                 <p>Nombre total de donneurs pour cette collecte
@@ -265,7 +223,86 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
 
                             </div>
 
+                        <div class="widget">
+
+                            <div class="widget-head">
+                                <div class="pull-left">
+                                    Liste des participants
+                                </div>
+                                <div class="widget-icons pull-right">
+                                    <input type="text">
+                                    <img src='style/images/search.png'>
+                                    <img src='style/images/print.png'>
+                                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
+                                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="widget-content">
+
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>CIN</th>
+                                        <th>Groupe</th>
+                                        <th>Dernier don</th>
+                                        <th>Prochain don</th>
+                                        <th>Etat</th>
+                                        <th>Téléphone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $ctrl = new DonneurController();
+                                    $list = $ctrl->getAllNegativeDonneurParticipantCollecte($_GET['idCollecte']);
+                                    foreach($list as $d){
+                                        echo " <tr>";
+                                        echo "<td>".$d->getCodeAd()."</td>";
+                                        echo "<td>".$d->getNom()."</td>";
+                                        echo "<td>".$d->getPrenom()."</td>";
+                                        echo "<td>".$d->getCin()."</td>";
+                                        echo "<td>".$d->getGroupeSanguin()."</td>";
+                                        echo "<td>".$d->getDernierDon()."</td>";
+                                        echo "<td>".$d->getProchainDon()."</td>";
+                                        echo "<td>".$d->getAptPourDon()."</td>";
+                                        echo "<td>".$d->getTel()."</td>";
+                                        echo "<td>
+                                                                <a href='?action=supp&idDonneur=".$d->getIdDonneur()."' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='donneurModForm.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/edit.png'></a>
+                                                                <a href='donneurFiche.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/detail.png'></a>
+                                                                <a href='donAddForm.php?idDonneur=".$d->getIdDonneur()."'><img src='style/images/plus.png'></a>
+                                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+
+                                <div class="widget-foot">
+
+
+                                    <ul class="pagination pull-right">
+                                        <li><a href="#">Prev</a></li>
+                                        <li><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">Next</a></li>
+                                    </ul>
+
+                                    <div class="clearfix"></div>
+
+                                </div>
+
+                            </div>
+
                         </div>
+                    </div>
 
 
                     </div>
@@ -292,8 +329,8 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
     <?php
 
     $ctrl = new DonneurController();
-    $homme = $ctrl->getAllDonneurHommeByCollecte($_POST['idCollecte']);
-    $femme = $ctrl->getAllDonneurFemmeByCollecte($_POST['idCollecte']);
+    $homme = $ctrl->getAllDonneurHommeByCollecte($_GET['idCollecte']);
+    $femme = $ctrl->getAllDonneurFemmeByCollecte($_GET['idCollecte']);
 
     ?>
 
@@ -330,10 +367,10 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
     <?php
 
     $ctrl = new DonneurController();
-    $oneg = $ctrl->getAllDonneurGroupOnegByCollecte($_POST['idCollecte']);
-    $aneg = $ctrl->getAllDonneurGroupAnegByCollecte($_POST['idCollecte']);
-    $bneg = $ctrl->getAllDonneurGroupBnegByCollecte($_POST['idCollecte']);
-    $abneg = $ctrl->getAllDonneurGroupABnegByCollecte($_POST['idCollecte']);
+    $oneg = $ctrl->getAllDonneurGroupOnegByCollecte($_GET['idCollecte']);
+    $aneg = $ctrl->getAllDonneurGroupAnegByCollecte($_GET['idCollecte']);
+    $bneg = $ctrl->getAllDonneurGroupBnegByCollecte($_GET['idCollecte']);
+    $abneg = $ctrl->getAllDonneurGroupABnegByCollecte($_GET['idCollecte']);
 
 
     ?>

@@ -13,9 +13,7 @@ if(!empty($_POST['nom']) and !empty($_POST['prenom'])  and !empty($_POST['type']
 
   $user = new UserController();
   if($user->ajouterUser($_POST['nom'],$_POST['prenom'], $_POST['type'])){
-    echo "<h1>OKKKKKK</h1>";
   }else{
-    echo "<h1>oIo</h1>";
   }
 }
 ?>

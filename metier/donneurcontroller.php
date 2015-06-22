@@ -98,5 +98,9 @@ class DonneurController{
     public function getAllNegativeDonneurApt(){
         return $this->donneurDao->getAllNegativeDonneurApt();
     }
+
+    public function getAllNegativeDonneurParticipantCollecte($idcollecte){
+        return $this->donneurDao->getAllNegativeDonneurParticipantCollecte($idcollecte);
+    }
 }
 ?>

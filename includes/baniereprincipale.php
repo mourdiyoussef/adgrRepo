@@ -75,18 +75,6 @@ $totalneg = $oneg + $aneg + $bneg + $abneg;
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="hdata">
-                        <div class="mcol-left">
-                            <!-- Icon with red background -->
-                            <i><img src="img/banner/Tneg.png" width="40" height="40"></i>
-                        </div>
-                        <!<div class="mcol-right">
-                            <!-- Number of visitors -->
-                            <p><a href="#"><?php echo $totalneg; ?></a></p>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
 
 
                 </div>

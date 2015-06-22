@@ -82,7 +82,7 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
 
         <!-- Page heading -->
         <div class="page-head">
-            <h2 class="pull-left"><i class="icon-table"></i> Répértoire</h2>
+            <h2 class="pull-left"><i class="icon-table"></i> Dépenses</h2>
 
             <!-- Breadcrumb -->
             <div class="bread-crumb pull-right">
@@ -107,47 +107,33 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
                 <div class="row">
 
                     <div class="col-md-12">
+
                         <div class="widget">
+
                             <div class="widget-head">
-                                <div class="pull-left">Liste des dépenses</div>
-                                <div class="widget-icons pull-right">
-                                    <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
-                                    <a href="#" class="wclose"><i class="icon-remove"></i></a>
+                                <div class="pull-left">
+                                    <table>
+                                        <form class="" role="form" method="post" novalidate="novalidate" id="register-form" name="rechercheDep">
+                                           <tr>
+                                               <td width="90px"><label class="">Collecte du</label></td>
+                                               <td width="110px"> <select class="" name="idCollecte">
+                                                    <?php
+                                                    $collecteCtrl = new CollecteController();
+                                                    $listCollecte = $collecteCtrl->getAllCollecte();
+                                                    foreach($listCollecte as $c){
+                                                        echo "<option value=".$c->getIdCollecte().">".$c->getDateCollecte()."</option>";
+                                                    }
+                                                    ?>
+                                                </select></td>
+
+                                                <td><img src='style/images/search.png' alt="Rechercher" onclick="document.rechercheDep.submit();"></td>
+                                           </tr>
+                                        </form>
+
+                                    </table>
                                 </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="widget-content">
-                                <form class="form-horizontal" role="form" method="post" novalidate="novalidate" id="register-form">
-                                    <div class="form-group">
-                                        <label class="col-lg-4 control-label">Collecte du</label>
-                                        <div class="col-lg-8">
-                                            <table><tr><td width="250px">
-                                            <select class="form-control" name="idCollecte">
-                                                <?php
-                                                $collecteCtrl = new CollecteController();
-                                                $listCollecte = $collecteCtrl->getAllCollecte();
-                                                foreach($listCollecte as $c){
-                                                    echo "<option value=".$c->getIdCollecte().">".$c->getDateCollecte()."</option>";
-                                                }
-                                                ?>
-                                            </select></td><td><button type="submit" class="btn btn-primary">Valider</button></td></tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-offset-1 col-lg-9">
-
-                                        </div>
-                                    </div>
-                                    </form>
-                            </div>
-                        </div>
-
-                        <div class="widget">
-
-                            <div class="widget-head">
-                                <div class="pull-left">Liste des dépenses</div>
                                 <div class="widget-icons pull-right">
+                                    <img src='style/images/print.png'>
                                     <a href="#" class="wminimize"><i class="icon-chevron-up"></i></a>
                                     <a href="#" class="wclose"><i class="icon-remove"></i></a>
                                 </div>
@@ -180,8 +166,8 @@ if(!empty($_GET['action']) and !empty($_GET['idDepense'])){
                                                         echo "<td>" . $d->getMontant() . "</td>";
                                                         echo "<td>" . $d->getRemarque() . "</td>";
                                                         echo "<td>
-                                                                <a href='?action=supp&idDepense=" . $d->getIdDepense() . "' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\">Supprimer</a> |
-                                                                <a href='depenseModForm.php?idDepense=" . $d->getIdDepense() . "'>Modifier</a>
+                                                                <a href='?action=supp&idDepense=" . $d->getIdDepense() . "' onclick=\"return(confirm('Etes-vous sûr de vouloir supprimer'));\"><img src='style/images/delete.png'></a>
+                                                                <a href='depenseModForm.php?idDepense=" . $d->getIdDepense() . "'><img src='style/images/edit.png'></a>
                                                             </td>";
                                                         echo "</tr>";
                                                         $total += $d->getMontant();
