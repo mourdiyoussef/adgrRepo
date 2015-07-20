@@ -29,8 +29,6 @@ include_once("modeles/depense.php");
 include_once("dao/connectiondb.php");
 include_once("dao/depensedao.php");
 include_once("metier/depensecontroller.php");
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +38,51 @@ include_once("metier/depensecontroller.php");
     <title>Fiche de la collecte</title>
 
     <?php include_once('includes/scripts.php'); ?>
+ <link rel="stylesheet" href="js/amcharts/style.css" type="text/css">
+        <script src="js/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="js/amcharts/pie.js" type="text/javascript"></script>
+          <script src="js/amcharts/serial.js"></script>
+  <script src="js/amcharts/dataloader.min.js"></script>
+     <?php
 
+    $ctrl = new DonneurController();
+    $homme = $ctrl->getAllDonneurHommeByCollecte($_GET['idCollecte']);
+    $femme = $ctrl->getAllDonneurFemmeByCollecte($_GET['idCollecte']);
+
+    ?>
+        <script>
+            var chart;
+            var legend;
+
+            var chartData = [
+                {
+                    "country": "Homme",
+                    "value": <?php echo $homme; ?>
+                },
+                 {
+                    "country": "Femme",
+                    "value": <?php echo $femme; ?>
+                }
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart = new AmCharts.AmPieChart();
+                chart.dataProvider = chartData;
+                chart.titleField = "country";
+                chart.valueField = "value";
+                chart.outlineColor = "#FFFFFF";
+                chart.outlineAlpha = 0.8;
+                chart.outlineThickness = 2;
+                chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart.depth3D = 15;
+                chart.angle = 30;
+
+                // WRITE
+                chart.write("chartdiv");
+            });
+        </script>
 </head>
 
 <body>
@@ -139,7 +181,7 @@ include_once("metier/depensecontroller.php");
 
 
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="widget">
                                                 <!-- Widget title -->
                                                 <div class="widget-head">
@@ -151,15 +193,16 @@ include_once("metier/depensecontroller.php");
                                                 </div>
                                                 <div class="widget-content">
                                                     <!-- Widget content -->
-
-                                                    <div id="pie-chart3"></div>
+<center>
+     <div id="chartdiv" style="width: 450px; height: 200px;"></div>
+     </center>
 
                                                     <div class="widget-foot">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="widget">
                                                             <!-- Widget title -->
                                                             <div class="widget-head">
@@ -171,30 +214,15 @@ include_once("metier/depensecontroller.php");
                                                             </div>
                                                             <div class="widget-content">
                                                                 <!-- Widget content -->
-
-                                                                <div id="pie-chartGS"></div>
-
+<center>
+       <div id="groupe" style="width: 450px; height: 200px;"></div>
+</center>
                                                                 <div class="widget-foot">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <!-- Server Status -->
-                                                    <div class="col-md-4">
-                                                        <div class="widget">
-                                                            <!-- Widget title -->
-                                                            <div class="widget-head">
-                                                                <div class="pull-left">Server Status</div>
-                                                                <div class="widget-icons pull-right">
-                                                                    <a class="wminimize" href="#"><i
-                                                                            class="icon-chevron-up"></i></a>
-                                                                    <a class="wclose" href="#"><i
-                                                                            class="icon-remove"></i></a>
-                                                                </div>
-                                                                <div class="clearfix"></div>
-                                                            </div>
-                                                            <div class="widget-content">
                                                                 <!-- Widget content -->
 
 
@@ -321,12 +349,9 @@ include_once("metier/depensecontroller.php");
 <!-- Content ends -->
 
 <?php include_once('includes/foot.php'); ?>
-<script type="text/javascript">
-
-
-    /* Pie chart starts Par Sexe*/
-
-    <?php
+       <script src="js/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="js/amcharts/pie.js" type="text/javascript"></script>
+   <?php
 
     $ctrl = new DonneurController();
     $homme = $ctrl->getAllDonneurHommeByCollecte($_GET['idCollecte']);
@@ -334,37 +359,40 @@ include_once("metier/depensecontroller.php");
 
     ?>
 
-    $(function () {
-
-        var data = [];
-        //var series = Math.floor(Math.random()*10)+1;
-        var series = 2;
-        //SELECT COUNT( * )  FROM  `matable` WHERE  `gs` =  "A"
-
-        data[0] = { label: "Homme", data: <?php echo $homme*100+1; ?> }
-        data[1] = { label: "Femme", data: <?php echo $femme*100+1; ?>  }
-
-
-        $.plot($("#pie-chart3"), data,
-            {
-                series: {
-                    pie: {
-                        show: true
-                    }
+        <script>
+            var chart;
+            var legend;
+// data[0] = { label: "Homme", data: <?php echo $homme*100+1; ?> }
+            var chartData = [
+                {
+                    "country": "Homme",
+                    "value": <?php echo $homme; ?>
                 },
-                grid: {hoverable: true},
-                legend: {
-                    show: false
+                 {
+                    "country": "femme",
+                    "value": <?php echo $femme; ?>
                 }
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart = new AmCharts.AmPieChart();
+                chart.dataProvider = chartData;
+                chart.titleField = "country";
+                chart.valueField = "value";
+                chart.outlineColor = "#FFFFFF";
+                chart.outlineAlpha = 0.8;
+                chart.outlineThickness = 2;
+                chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart.depth3D = 15;
+                chart.angle = 30;
+
+                // WRITE
+                chart.write("sexe");
             });
-
-        /* Pie chart ends */
-
-    });
-
-    /* Pie chart starts Par Group neg*/
-
-    <?php
+        </script>
+              <?php
 
     $ctrl = new DonneurController();
     $oneg = $ctrl->getAllDonneurGroupOnegByCollecte($_GET['idCollecte']);
@@ -372,40 +400,47 @@ include_once("metier/depensecontroller.php");
     $bneg = $ctrl->getAllDonneurGroupBnegByCollecte($_GET['idCollecte']);
     $abneg = $ctrl->getAllDonneurGroupABnegByCollecte($_GET['idCollecte']);
 
-
     ?>
-
-    $(function () {
-
-        var data = [];
-        //var series = Math.floor(Math.random()*10)+1;
-        var series = 4;
-        //SELECT COUNT( * )  FROM  `matable` WHERE  `gs` =  "A"
-
-        data[0] = { label: "O-", data: <?php echo $oneg*100+1; ?> }
-        data[1] = { label: "A-", data: <?php echo $aneg*100+1; ?> }
-        data[2] = { label: "B-", data: <?php echo $bneg*100+1; ?> }
-        data[3] = { label: "AB-", data: <?php echo $abneg*100+1; ?> }
-
-
-        $.plot($("#pie-chartGS"), data,
-            {
-                series: {
-                    pie: {
-                        show: true
-                    }
+                        <script>
+            var chart;
+            var legend;
+// data[0] = { label: "Homme", data: <?php echo $homme*100+1; ?> }
+            var chartDataa = [
+                {
+                    "groupe": "Oneg",
+                    "values": <?php echo $oneg; ?>
                 },
-                grid: {hoverable: true},
-                legend: {
-                    show: false
+				{
+                    "groupe": "Aneg",
+                    "values": <?php echo $aneg; ?>
+                },
+				{
+                    "groupe": "Bneg",
+                    "values": <?php echo $bneg; ?>
+                },
+				{
+                    "groupe": "ABneg",
+                    "values": <?php echo $abneg; ?>
                 }
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart = new AmCharts.AmPieChart();
+                chart.dataProvider = chartDataa;
+                chart.titleField = "groupe";
+                chart.valueField = "values";
+                chart.outlineColor = "#FFFFFF";
+                chart.outlineAlpha = 0.8;
+                chart.outlineThickness = 2;
+                chart.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[values]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart.depth3D = 15;
+                chart.angle = 30;
+
+                // WRITE
+                chart.write("groupe");
             });
-
-        /* Pie chart ends */
-
-    });
-
-
-</script>
+        </script>
 </body>
 </html>
