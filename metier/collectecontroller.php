@@ -47,6 +47,14 @@ class CollecteController{
     public function getCountParticipant($id){
         return $this->collecteDao->getCountParticipant($id);
     }
+	 public function getCountParticipantTotal(){
+        return $this->collecteDao->getCountParticipantTotal();
+    }
+	
+	public function getNbreAllDonneurNegatifByCollecte($idCollecte){
+        return $this->collecteDao->getNbreAllDonneurNegatifByCollecte($idCollecte);
+    }
+	
 
 }
 ?>

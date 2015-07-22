@@ -394,5 +394,30 @@ class DonneurDAO {
         return $tab;
 
     }
+	
+	public function getAllDonneurFemme(){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrFemme FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                     
+                                                          and donneur.sexe='femme'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrFemme;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+	
+		public function getAllDonneurHomme(){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrHomme FROM donneur , don WHERE donneur.iddonneur = don.iddonneur
+                                                     
+                                                          and donneur.sexe='homme'";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrHomme;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
+
 }
 ?>

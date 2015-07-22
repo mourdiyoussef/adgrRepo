@@ -35,8 +35,9 @@ include_once("metier/depensecontroller.php");
 <?php
 // Fetch the data
     $ctrl = new CollecteController();
-    $list = $ctrl->getCountParticipantTotal();
-	//				    $list2 = $ctrl->getNbreAllDonneurNegatifByCollecte(1);
+   // $list = $ctrl->getCountParticipantTotal();
+   $list = $ctrl->getAllCollecte();
+	//getAllCollecte				    $list2 = $ctrl->getNbreAllDonneurNegatifByCollecte(1);
 //echo $list2;							
 
 // Print out rows
@@ -46,6 +47,9 @@ foreach($list as $d){
    // $list2 = $ctrl->getNbreAllDonneurNegatifByCollecte($d->getIdCollecte());
   echo $prefix . " {\n";
   echo '  "category": "' . $d->getDateCollecte() . '",' . "\n";
+  if($d->getNbrDon()==0)
+  echo '  "value1": ' . $ctrl->getNbreAllDonneurNegatifByCollecte($d->getIdCollecte()) . ',' . "\n";
+  else if($d->getNbrDon()!=0) 
   echo '  "value1": ' . $d->getNbrDon() . ',' . "\n";
   echo '  "value2": ' . $ctrl->getNbreAllDonneurNegatifByCollecte($d->getIdCollecte()) . '' . "\n";
   echo " }";

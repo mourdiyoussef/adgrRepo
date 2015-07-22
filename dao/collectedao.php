@@ -113,6 +113,44 @@ class CollecteDAO {
         $this->objConnexion->close($bdd);
         return $nbr;
     }
+	    public function getCountParticipantTotal(){
+        $bdd = $this->objConnexion->connect();
+        $req = "select don.idcollecte, dateCollecte, count(don.idcollecte) as nbrParticipant from don ,collecte where don.idcollecte=collecte.idcollecte Group by don.idcollecte LIMIT 0 , 15";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+ while($obj = mysqli_fetch_object($v)){
+	 		$d = new Collecte();
+        $d->setDateCollecte($obj->dateCollecte);
+        $d->setnbrDon($obj->nbrParticipant);
+$d->setIdCollecte($obj->idcollecte);
+         $tab[] = $d;
+        }
+        $this->objConnexion->close($bdd);
+        return $tab;
+    }
+	    public function getCountParticipantNegatif(){
+        $bdd = $this->objConnexion->connect();
+        $req = "select dateCollecte, totalDon, count(don.idcollecte) as nbrParticipant from donneur, don ,collecte where don.idcollecte=collecte.idcollecte and donneur.groupeSonguin='O-' or donneur.groupeSonguin='A-' or donneur.groupeSonguin='B-' or donneur.groupeSonguin='AB-' Group by don.idcollecte";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+ while($obj = mysqli_fetch_object($v)){
+	 		$d = new Collecte();
+        $d->setDateCollecte($obj->dateCollecte);
+		 $d->setnbrDon($obj->nbrParticipant);
+		 
 
+         $tab[] = $d;
+		 //echo $d->getIdCollecte();
+        }
+        $this->objConnexion->close($bdd);
+        return $tab;
+    }
+		public function getNbreAllDonneurNegatifByCollecte($idCollecte){
+        $bdd = $this->objConnexion->connect();
+        $req="SELECT count( * ) as nbrDonneur FROM donneur , don WHERE don.idcollecte =$idCollecte and (donneur.groupeSonguin='O-' or donneur.groupeSonguin='A-' or donneur.groupeSonguin='B-' or donneur.groupeSonguin='AB-') and donneur.idDonneur=don.iddonneur";
+        $v = mysqli_query($bdd,$req) or die(mysql_error());
+        $obj = mysqli_fetch_object($v);
+        $nbr = $obj->nbrDonneur;
+        $this->objConnexion->close($bdd);
+        return $nbr;
+    }
 }
 ?>

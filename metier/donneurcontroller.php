@@ -102,5 +102,13 @@ class DonneurController{
     public function getAllNegativeDonneurParticipantCollecte($idcollecte){
         return $this->donneurDao->getAllNegativeDonneurParticipantCollecte($idcollecte);
     }
+	   public function getAllDonneurFemme(){
+        return $this->donneurDao->getAllDonneurFemme();
+
+    }
+   public function getAllDonneurHomme(){
+        return $this->donneurDao->getAllDonneurHomme();
+
+    }
 }
 ?>
